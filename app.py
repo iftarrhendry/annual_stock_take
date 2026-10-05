@@ -460,8 +460,6 @@ with st.sidebar:
         "Store",
         store_list
     )
-
-
     # ==========================================
     # ACTIVE FILTER INFO
     # ==========================================
@@ -833,25 +831,16 @@ upcoming_schedule = upcoming_schedule.sort_values(
 
 if not upcoming_schedule.empty:
 
-    # Ambil jadwal AST berikutnya
+    # ==========================================
+    # AMBIL NEXT SCHEDULE
+    # ==========================================
+
     next_ast = upcoming_schedule.iloc[0]
 
     next_batch = next_ast["BATCH"]
     next_date = next_ast["AST Date"]
     next_day = next_ast["AST Day"]
-
-    # Ambil semua toko dalam batch tersebut
-    next_batch_data = schedule_df[
-        schedule_df["BATCH"].astype(str) == str(next_batch)
-    ].copy()
-
-    batch_stores = (
-        next_batch_data["STORE"]
-        .dropna()
-        .astype(str)
-        .drop_duplicates()
-        .tolist()
-    )
+    next_coord = next_ast["Coord"]
 
     # ==========================================
     # COUNTDOWN
@@ -894,24 +883,243 @@ if not upcoming_schedule.empty:
         countdown_label = "TIME LEFT"
 
     # ==========================================
-    # STORE HTML
+    # STORE VIEW / BATCH VIEW
     # ==========================================
 
-    store_html = ""
+    if selected_store != "All Store":
 
-    for store in batch_stores:
+        card_title = "YOUR NEXT ANNUAL STOCK TAKE"
 
-        store_html += f"""
-        <div style="
-            background:#fff5f5;
-            border:1px solid #f3d5d8;
-            border-radius:10px;
-            padding:10px 14px;
-            font-size:13px;
-            font-weight:600;
-            color:#8f1d2d;
-        ">
-            {store}
+        store_name = selected_store
+
+        store_members = [
+            next_ast["Member1"],
+            next_ast["Member2"],
+            next_ast["Member3"]
+        ]
+
+        store_members = [
+            str(member).strip()
+            for member in store_members
+            if pd.notna(member)
+            and str(member).strip() not in ["", "-", "nan"]
+        ]
+
+        team_text = (
+            " • ".join(store_members)
+            if store_members
+            else "-"
+        )
+
+        main_identity_html = f"""
+        <div>
+
+            <div style="
+                font-size:10px;
+                font-weight:800;
+                color:#999999;
+                letter-spacing:0.9px;
+                margin-bottom:5px;
+            ">
+                STORE
+            </div>
+
+            <div style="
+                font-size:30px;
+                font-weight:800;
+                color:#222222;
+                line-height:1.15;
+                margin-bottom:8px;
+            ">
+                {store_name}
+            </div>
+
+            <div style="
+                margin-bottom:18px;
+            ">
+
+                <div style="
+                    font-size:10px;
+                    font-weight:800;
+                    color:#a41728;
+                    letter-spacing:0.8px;
+                    margin-bottom:4px;
+                ">
+                    AST DATE
+                </div>
+
+                <div style="
+                    font-size:22px;
+                    font-weight:800;
+                    color:#333333;
+                ">
+                    {next_date.strftime("%d %B %Y")}
+                </div>
+
+                <div style="
+                    font-size:12px;
+                    color:#777777;
+                    margin-top:2px;
+                ">
+                    {next_day}
+                </div>
+
+            </div>
+
+            <div style="
+                display:flex;
+                gap:12px;
+                width:100%;
+            ">
+
+                <div style="
+                    flex:1;
+                    min-width:0;
+                    background:#fffafa;
+                    border:1px solid #f0dddd;
+                    border-radius:12px;
+                    padding:13px 14px;
+                ">
+
+                    <div style="
+                        font-size:10px;
+                        font-weight:800;
+                        color:#a41728;
+                        letter-spacing:0.7px;
+                        margin-bottom:6px;
+                    ">
+                        COORDINATOR
+                    </div>
+
+                    <div style="
+                        font-size:13px;
+                        font-weight:600;
+                        color:#444444;
+                        overflow-wrap:anywhere;
+                    ">
+                        {next_coord}
+                    </div>
+
+                </div>
+
+                <div style="
+                    flex:1.4;
+                    min-width:0;
+                    background:#fffafa;
+                    border:1px solid #f0dddd;
+                    border-radius:12px;
+                    padding:13px 14px;
+                ">
+
+                    <div style="
+                        font-size:10px;
+                        font-weight:800;
+                        color:#a41728;
+                        letter-spacing:0.7px;
+                        margin-bottom:6px;
+                    ">
+                        TEAM
+                    </div>
+
+                    <div style="
+                        font-size:12px;
+                        color:#555555;
+                        line-height:1.5;
+                        overflow-wrap:anywhere;
+                    ">
+                        {team_text}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        """
+
+    else:
+
+        card_title = "NEXT ANNUAL STOCK TAKE"
+
+        next_batch_data = schedule_df[
+            schedule_df["BATCH"].astype(str)
+            == str(next_batch)
+        ].copy()
+
+        batch_stores = (
+            next_batch_data["STORE"]
+            .dropna()
+            .astype(str)
+            .drop_duplicates()
+            .tolist()
+        )
+
+        store_html = ""
+
+        for store in batch_stores:
+
+            store_html += f"""
+            <div style="
+                background:#fff5f5;
+                border:1px solid #f3d5d8;
+                border-radius:10px;
+                padding:10px 14px;
+                font-size:13px;
+                font-weight:600;
+                color:#8f1d2d;
+            ">
+                {store}
+            </div>
+            """
+
+        main_identity_html = f"""
+        <div>
+
+            <div style="
+                font-size:10px;
+                font-weight:800;
+                color:#999999;
+                letter-spacing:0.9px;
+                margin-bottom:5px;
+            ">
+                AST DATE
+            </div>
+
+            <div style="
+                font-size:27px;
+                font-weight:800;
+                color:#222222;
+                margin-bottom:5px;
+            ">
+                {next_date.strftime("%d %B %Y")}
+            </div>
+
+            <div style="
+                font-size:14px;
+                color:#777777;
+                margin-bottom:18px;
+            ">
+                {next_day}
+            </div>
+
+            <div style="
+                font-size:10px;
+                font-weight:800;
+                color:#999999;
+                letter-spacing:0.8px;
+                margin-bottom:8px;
+            ">
+                STORES
+            </div>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(3, minmax(0,1fr));
+                gap:10px;
+            ">
+                {store_html}
+            </div>
+
         </div>
         """
 
@@ -935,12 +1143,11 @@ if not upcoming_schedule.empty:
         margin-bottom:20px;
     ">
 
-        <!-- HEADER -->
         <div style="
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:18px;
+            margin-bottom:22px;
         ">
 
             <div style="
@@ -949,101 +1156,94 @@ if not upcoming_schedule.empty:
                 color:#D71920;
                 letter-spacing:1px;
             ">
-                NEXT ANNUAL STOCK TAKE
+                {card_title}
             </div>
 
             <div style="
                 background:#D71920;
                 color:#ffffff;
-                padding:6px 13px;
-                border-radius:20px;
-                font-size:12px;
-                font-weight:700;
+                padding:7px 14px;
+                border-radius:999px;
+                font-size:11px;
+                font-weight:800;
             ">
                 BATCH {next_batch}
             </div>
 
         </div>
 
-
-        <!-- MAIN CONTENT -->
         <div style="
-            display:grid;
-            grid-template-columns:minmax(0,1fr) 200px;
+            display:flex;
             gap:24px;
-            align-items:center;
+            align-items:stretch;
+            width:100%;
         ">
 
-            <!-- LEFT -->
-            <div>
+            <div style="
+                flex:1;
+                min-width:0;
+            ">
 
-                <div style="
-                    font-size:27px;
-                    font-weight:800;
-                    color:#222222;
-                    margin-bottom:5px;
-                ">
-                    {next_date.strftime("%d %B %Y")}
-                </div>
-
-                <div style="
-                    font-size:14px;
-                    color:#777777;
-                    margin-bottom:18px;
-                ">
-                    {next_day}
-                </div>
-
-
-                <!-- STORES -->
-                <div style="
-                    font-size:11px;
-                    font-weight:700;
-                    color:#999999;
-                    letter-spacing:0.7px;
-                    margin-bottom:8px;
-                ">
-                    STORES
-                </div>
-
-                <div style="
-                    display:grid;
-                    grid-template-columns:repeat(3, minmax(0,1fr));
-                    gap:10px;
-                ">
-                    {store_html}
-                </div>
+                {main_identity_html}
 
             </div>
 
-
-            <!-- COUNTDOWN -->
             <div style="
-                background:#D71920;
-                border-radius:16px;
-                padding:20px 12px;
+                width:280px;
+                flex-shrink:0;
+                background:linear-gradient(
+                    145deg,
+                    #C8141C 0%,
+                    #D71920 55%,
+                    #E12229 100%
+                );
+                border-radius:18px;
+                padding:22px 18px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
                 text-align:center;
-                box-shadow:0 6px 18px rgba(215,25,32,0.18);
+                box-shadow:0 8px 22px rgba(215,25,32,0.18);
             ">
 
                 <div style="
                     font-size:11px;
                     font-weight:700;
                     color:#ffe5e7;
-                    letter-spacing:0.8px;
+                    letter-spacing:1px;
+                    margin-bottom:9px;
                 ">
                     {countdown_label}
                 </div>
 
                 <div style="
-                    font-size:28px;
+                    font-size:32px;
                     font-weight:900;
                     color:#ffffff;
-                    line-height:1.2;
-                    margin-top:8px;
+                    line-height:1.15;
                     white-space:nowrap;
+                    letter-spacing:-0.5px;
                 ">
                     {countdown_number}
+                </div>
+
+                <div style="
+                    width:50px;
+                    height:2px;
+                    background:#ffffff;
+                    opacity:0.25;
+                    margin:14px 0;
+                    border-radius:10px;
+                ">
+                </div>
+
+                <div style="
+                    font-size:11px;
+                    color:#ffe8e9;
+                    line-height:1.5;
+                ">
+                    Countdown to Annual Stock Take
                 </div>
 
             </div>
