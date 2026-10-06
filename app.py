@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 import base64
 from zoneinfo import ZoneInfo
+from urllib.parse import quote
 
 # ==========================================
 # TIMEZONE
@@ -644,6 +645,21 @@ def metric_value_html(value, decimals=0):
         {escape(formatted)}
     </span>
     """
+# ==========================================
+# 6C. STORE CARD NAVIGATION
+# ==========================================
+
+requested_store = st.query_params.get(
+    "open_store"
+)
+
+if requested_store:
+
+    st.session_state["store_filter"] = (
+        requested_store
+    )
+
+    del st.query_params["open_store"]
 
 # ==========================================
 # 7. SIDEBAR
@@ -789,7 +805,7 @@ with st.sidebar:
     )
 
 
-    # ==========================================
+        # ==========================================
     # STORE FILTER
     # ==========================================
 
@@ -822,9 +838,32 @@ with st.sidebar:
         + sorted(store_values)
     )
 
+
+    # ==========================================
+    # STORE FILTER STATE
+    # ==========================================
+
+    # Inisialisasi hanya saat pertama kali app dibuka
+    if "store_filter" not in st.session_state:
+
+        st.session_state["store_filter"] = "All Store"
+
+
+    # Jika user mengganti Batch dan Store lama
+    # tidak termasuk dalam Batch baru,
+    # reset otomatis ke All Store.
+    if (
+        st.session_state["store_filter"]
+        not in store_list
+    ):
+
+        st.session_state["store_filter"] = "All Store"
+
+
     selected_store = st.selectbox(
         "Store",
-        store_list
+        store_list,
+        key="store_filter"
     )
     # ==========================================
     # ACTIVE FILTER INFO
@@ -1177,6 +1216,13 @@ progress_html = f"""
 """
 
 st.html(progress_html)
+
+# ==========================================
+# STORE NAVIGATION
+# ==========================================
+
+def open_store_view(store_name):
+    st.session_state["store_filter"] = str(store_name)
 
 # ==========================================
 # 9. NEXT AST CALCULATION
@@ -2514,6 +2560,27 @@ if not upcoming_schedule.empty:
                 else "-"
             )
 
+            store_name_value = str(
+                store_row["STORE"]
+            )
+
+            store_name_safe = escape(
+                store_name_value
+            )
+
+            coordinator_safe = escape(
+                str(store_row["Coord"])
+            )
+
+            team_text_safe = escape(
+                team_text
+            )
+
+            store_url_value = quote(
+                store_name_value,
+                safe=""
+            )
+
 
             store_cards_html += f"""
             <div style="
@@ -2522,9 +2589,13 @@ if not upcoming_schedule.empty:
                 border-radius:12px;
                 padding:14px;
                 min-width:0;
-                min-height:145px;
+                min-height:195px;
+
+                display:flex;
+                flex-direction:column;
             ">
 
+                <!-- STORE NAME -->
                 <div style="
                     font-size:13px;
                     font-weight:800;
@@ -2532,7 +2603,7 @@ if not upcoming_schedule.empty:
                     line-height:1.35;
                     margin-bottom:9px;
                 ">
-                    {store_row["STORE"]}
+                    {store_name_safe}
                 </div>
 
 
@@ -2543,6 +2614,7 @@ if not upcoming_schedule.empty:
                 "></div>
 
 
+                <!-- COORDINATOR -->
                 <div style="
                     font-size:9px;
                     font-weight:800;
@@ -2553,16 +2625,18 @@ if not upcoming_schedule.empty:
                     COORDINATOR
                 </div>
 
+
                 <div style="
                     font-size:11px;
                     font-weight:600;
                     color:#444444;
                     line-height:1.4;
                 ">
-                    {store_row["Coord"]}
+                    {coordinator_safe}
                 </div>
 
 
+                <!-- TEAM -->
                 <div style="
                     font-size:9px;
                     font-weight:800;
@@ -2574,14 +2648,48 @@ if not upcoming_schedule.empty:
                     TEAM
                 </div>
 
+
                 <div style="
                     font-size:10px;
                     color:#666666;
                     line-height:1.45;
                     overflow-wrap:anywhere;
+                    margin-bottom:14px;
                 ">
-                    {team_text}
+                    {team_text_safe}
                 </div>
+
+
+                <!-- BUTTON -->
+                <a
+                    href="?open_store={store_url_value}"
+                    target="_self"
+                    style="
+                        display:block;
+
+                        margin-top:auto;
+
+                        background:#D71920;
+                        color:#ffffff;
+
+                        border:1px solid #D71920;
+
+                        border-radius:9px;
+
+                        padding:8px 10px;
+
+                        text-align:center;
+
+                        text-decoration:none;
+
+                        font-size:10px;
+                        font-weight:800;
+
+                        letter-spacing:0.6px;
+                    "
+                >
+                    LIHAT AST
+                </a>
 
             </div>
             """
