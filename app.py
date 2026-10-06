@@ -1,7 +1,24 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import base64
+from zoneinfo import ZoneInfo
 
+# ==========================================
+# TIMEZONE
+# ==========================================
+
+WIB = ZoneInfo("Asia/Jakarta")
+
+
+def get_now_wib():
+    """
+    Mengambil waktu sekarang berdasarkan WIB.
+
+    Hasil dibuat tanpa timezone metadata agar tetap
+    kompatibel dengan tanggal Excel yang bersifat naive.
+    """
+    return pd.Timestamp.now(tz=WIB).tz_localize(None)
 
 # ==========================================
 # 1. PAGE CONFIG
@@ -249,8 +266,8 @@ schedule_df = df[
 ].copy()
 
 
-# Tanggal hari ini
-today = pd.Timestamp.today().normalize()
+# Tanggal hari ini berdasarkan WIB
+today = get_now_wib().normalize()
 
 
 # Menghitung countdown
@@ -296,7 +313,7 @@ def get_countdown_info(value):
             "level": "neutral"
         }
 
-    now = pd.Timestamp.now()
+    now = get_now_wib()
 
     today = now.normalize()
 
@@ -377,7 +394,7 @@ def get_days_left_text(value):
     if pd.isna(value):
         return "-"
 
-    now = pd.Timestamp.now()
+    now = get_now_wib()
     target = pd.Timestamp(value).normalize()
     today = now.normalize()
 
@@ -1235,7 +1252,7 @@ if not upcoming_schedule.empty:
                 "level": "neutral"
             }
 
-        now = pd.Timestamp.now()
+        now = get_now_wib()
         target = pd.Timestamp(value).normalize()
 
         time_left = target - now
@@ -1359,13 +1376,17 @@ if not upcoming_schedule.empty:
     ]
 
 
-    # ==========================================
+        # ==========================================
     # STORE VIEW
     # ==========================================
 
     if selected_store != "All Store":
 
         store_name = str(selected_store)
+
+        # ==========================================
+        # TEAM
+        # ==========================================
 
         store_members = [
             next_ast["Member1"],
@@ -1387,205 +1408,908 @@ if not upcoming_schedule.empty:
             else "-"
         )
 
-        card_title = "JADWAL AST BERIKUTNYA"
+        coordinator_text = (
+            str(next_ast["Coord"]).strip()
+            if pd.notna(next_ast["Coord"])
+            else "-"
+        )
+
+        # ==========================================
+        # FORMAT TANGGAL INDONESIA
+        # ==========================================
+
+        bulan_indonesia = {
+            1: "JANUARI",
+            2: "FEBRUARI",
+            3: "MARET",
+            4: "APRIL",
+            5: "MEI",
+            6: "JUNI",
+            7: "JULI",
+            8: "AGUSTUS",
+            9: "SEPTEMBER",
+            10: "OKTOBER",
+            11: "NOVEMBER",
+            12: "DESEMBER"
+        }
+
+        def format_store_board_date(value):
+
+            if pd.isna(value):
+                return "-"
+
+            value = pd.Timestamp(value)
+
+            return (
+                f"{value.day} "
+                f"{bulan_indonesia[value.month]} "
+                f"{value.year}"
+            )
 
 
-        content_html = f"""
-        <div>
+        formatted_ast_date = format_store_board_date(
+            next_date
+        )
 
-            <!-- STORE -->
-            <div style="
-                margin-bottom:16px;
-            ">
+        formatted_wh_date = format_store_board_date(
+            next_wh_date
+        )
 
-                <div style="
-                    font-size:10px;
-                    font-weight:800;
-                    color:#a41728;
-                    letter-spacing:0.9px;
-                    margin-bottom:5px;
-                ">
-                    STORE
-                </div>
+        # ==========================================
+        # TARGET DATE UNTUK JAVASCRIPT
+        # ==========================================
 
-                <div style="
-                    font-size:28px;
-                    font-weight:800;
-                    color:#222222;
-                    line-height:1.15;
-                ">
-                    {store_name}
-                </div>
+        # ==========================================
+        # TARGET AST PUKUL 00:00 WIB
+        # ==========================================
 
-                <div style="
-                    font-size:12px;
-                    color:#888888;
-                    margin-top:4px;
-                ">
-                    Batch {next_batch}
-                </div>
+        ast_target_wib = (
+            pd.Timestamp(next_date)
+            .normalize()
+            .tz_localize(WIB)
+        )
 
-            </div>
+        target_epoch_ms = int(
+            ast_target_wib.timestamp() * 1000
+        )
 
+        # ==========================================
+        # ESCAPE DATA DARI EXCEL
+        # ==========================================
 
-            <!-- DATES -->
-            <div style="
-                display:grid;
-                grid-template-columns:
-                    repeat(2, minmax(0,1fr));
-                gap:12px;
-                margin-bottom:12px;
-            ">
+        store_name_safe = escape(
+            store_name
+        )
 
-                <!-- WAREHOUSE -->
-                <div style="
-                    background:#ffffff;
-                    border:1px solid #f0dddd;
-                    border-radius:12px;
-                    padding:14px;
-                ">
+        coordinator_safe = escape(
+            coordinator_text
+        )
 
-                    <div style="
-                        font-size:10px;
-                        font-weight:800;
-                        color:#a41728;
-                        letter-spacing:0.8px;
-                        margin-bottom:6px;
-                    ">
-                        WH LSI (H-14)
-                    </div>
+        team_text_safe = escape(
+            team_text
+        )
 
-                    <div style="
-                        font-size:18px;
-                        font-weight:800;
-                        color:#333333;
-                    ">
-                        {format_card_date(next_wh_date)}
-                    </div>
+        batch_safe = escape(
+            str(next_batch)
+        )
 
-                    <div style="
-                        font-size:11px;
-                        color:{countdown_colors[wh_countdown["level"]]["text"]};
-                        font-weight:700;
-                        margin-top:6px;
-                    ">
-                        {wh_countdown["text"]}
-                    </div>
+        # ==========================================
+        # STORE COUNTDOWN BOARD
+        # ==========================================
 
-                </div>
+        store_countdown_html = f"""
+        <!DOCTYPE html>
 
+        <html>
 
-                <!-- AST DATE -->
-                <div style="
-                    background:#ffffff;
-                    border:1px solid #f0dddd;
-                    border-radius:12px;
-                    padding:14px;
-                ">
+        <head>
 
-                    <div style="
-                        font-size:10px;
-                        font-weight:800;
-                        color:#a41728;
-                        letter-spacing:0.8px;
-                        margin-bottom:6px;
-                    ">
-                        AST DATE
-                    </div>
+        <meta charset="UTF-8">
 
-                    <div style="
-                        font-size:18px;
-                        font-weight:800;
-                        color:#333333;
-                    ">
-                        {format_card_date(next_date)}
-                    </div>
+        <style>
 
-                    <div style="
-                        font-size:11px;
-                        color:#777777;
-                        margin-top:6px;
-                    ">
-                        {next_day}
-                    </div>
+            * {{
+                box-sizing: border-box;
+            }}
 
-                </div>
+            body {{
+                margin: 0;
+                padding: 0;
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif;
 
-            </div>
+                background: transparent;
+            }}
+
+            .ast-board {{
+
+                position: relative;
+
+                width: 100%;
+                min-height: 560px;
+
+                overflow: hidden;
+
+                border-radius: 22px;
+
+                background:
+                    radial-gradient(
+                        circle at 80% 15%,
+                        rgba(215,25,32,0.22),
+                        transparent 30%
+                    ),
+                    radial-gradient(
+                        circle at 15% 85%,
+                        rgba(255,255,255,0.08),
+                        transparent 28%
+                    ),
+                    linear-gradient(
+                        125deg,
+                        #07172e 0%,
+                        #10294b 45%,
+                        #061426 100%
+                    );
+
+                box-shadow:
+                    0 14px 38px
+                    rgba(0,0,0,0.20);
+
+                color: white;
+            }}
 
 
-            <!-- PEOPLE -->
-            <div style="
-                display:grid;
+            /* Decorative warehouse-like perspective */
+
+            .ast-board::before {{
+
+                content: "";
+
+                position: absolute;
+
+                inset: 0;
+
+                background:
+
+                    repeating-linear-gradient(
+                        90deg,
+                        transparent 0,
+                        transparent 95px,
+                        rgba(255,255,255,0.025) 96px,
+                        rgba(255,255,255,0.025) 97px
+                    ),
+
+                    linear-gradient(
+                        115deg,
+                        transparent 0%,
+                        rgba(255,255,255,0.06) 48%,
+                        transparent 49%
+                    );
+
+                pointer-events: none;
+            }}
+
+
+            .ast-overlay {{
+
+                position: absolute;
+
+                inset: 0;
+
+                background:
+                    linear-gradient(
+                        180deg,
+                        rgba(3,13,29,0.10),
+                        rgba(3,13,29,0.40)
+                    );
+
+                pointer-events: none;
+            }}
+
+
+            .ast-content {{
+
+                position: relative;
+
+                z-index: 2;
+
+                min-height: 560px;
+
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: center;
+
+                justify-content: center;
+
+                text-align: center;
+
+                padding: 34px 40px 28px 40px;
+            }}
+
+
+            .countdown-to {{
+
+                font-size: 14px;
+
+                font-weight: 800;
+
+                letter-spacing: 4px;
+
+                color: rgba(255,255,255,0.88);
+
+                margin-bottom: 7px;
+            }}
+
+
+            .main-title {{
+
+                margin: 0;
+
+                font-size: clamp(
+                    30px,
+                    4vw,
+                    52px
+                );
+
+                line-height: 1.05;
+
+                font-weight: 900;
+
+                letter-spacing: 1px;
+
+                text-shadow:
+                    0 4px 16px
+                    rgba(0,0,0,0.25);
+            }}
+
+
+            .store-name {{
+
+                margin-top: 13px;
+
+                font-size: 19px;
+
+                font-weight: 800;
+
+                letter-spacing: 0.7px;
+
+                color: #ffffff;
+            }}
+
+
+            .batch-badge {{
+
+                display: inline-block;
+
+                margin-top: 9px;
+
+                padding: 6px 13px;
+
+                border-radius: 999px;
+
+                background:
+                    rgba(215,25,32,0.90);
+
+                border:
+                    1px solid
+                    rgba(255,255,255,0.28);
+
+                font-size: 10px;
+
+                font-weight: 800;
+
+                letter-spacing: 1px;
+            }}
+
+
+            .date-information {{
+
+                margin-top: 18px;
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                align-items: center;
+
+                justify-content: center;
+
+                gap: 8px 24px;
+
+                font-size: 13px;
+
+                font-weight: 700;
+
+                color:
+                    rgba(255,255,255,0.90);
+            }}
+
+
+            .date-label {{
+
+                color:
+                    rgba(255,255,255,0.66);
+
+                font-weight: 700;
+            }}
+
+
+            .date-value {{
+
+                color: #ffffff;
+
+                font-weight: 900;
+            }}
+
+
+            .main-countdown {{
+
+                margin-top: 22px;
+
+                display: flex;
+
+                align-items: flex-end;
+
+                justify-content: center;
+
+                gap: 12px;
+            }}
+
+
+            .days-number {{
+
+                font-size: clamp(
+                    74px,
+                    10vw,
+                    118px
+                );
+
+                line-height: 0.82;
+
+                font-weight: 900;
+
+                letter-spacing: -4px;
+
+                text-shadow:
+                    0 7px 22px
+                    rgba(0,0,0,0.28);
+            }}
+
+
+            .days-label {{
+
+                padding-bottom: 8px;
+
+                font-size: 34px;
+
+                line-height: 1;
+
+                font-weight: 900;
+
+                letter-spacing: 2px;
+            }}
+
+
+            .time-row {{
+
+                margin-top: 27px;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+
+                gap: 24px;
+            }}
+
+
+            .time-box {{
+
+                min-width: 76px;
+
+                text-align: center;
+            }}
+
+
+            .time-number {{
+
+                font-size: 28px;
+
+                line-height: 1;
+
+                font-weight: 900;
+            }}
+
+
+            .time-label {{
+
+                margin-top: 7px;
+
+                font-size: 9px;
+
+                font-weight: 800;
+
+                letter-spacing: 1.4px;
+
+                color:
+                    rgba(255,255,255,0.66);
+            }}
+
+
+            .separator {{
+
+                margin-top: -15px;
+
+                font-size: 28px;
+
+                font-weight: 900;
+
+                color:
+                    rgba(255,255,255,0.50);
+            }}
+
+
+            .bottom-information {{
+
+                width: 100%;
+
+                margin-top: 28px;
+
+                padding-top: 16px;
+
+                border-top:
+                    1px solid
+                    rgba(255,255,255,0.15);
+
+                display: grid;
+
                 grid-template-columns:
                     0.8fr 1.2fr;
-                gap:12px;
-            ">
 
-                <!-- COORDINATOR -->
-                <div style="
-                    background:#fffafa;
-                    border:1px solid #f0dddd;
-                    border-radius:12px;
-                    padding:14px;
-                ">
+                gap: 16px;
 
-                    <div style="
-                        font-size:10px;
-                        font-weight:800;
-                        color:#a41728;
-                        letter-spacing:0.8px;
-                        margin-bottom:6px;
-                    ">
-                        COORDINATOR
+                text-align: left;
+            }}
+
+
+            .info-item {{
+
+                background:
+                    rgba(255,255,255,0.055);
+
+                border:
+                    1px solid
+                    rgba(255,255,255,0.10);
+
+                border-radius: 12px;
+
+                padding: 12px 14px;
+            }}
+
+
+            .info-label {{
+
+                font-size: 9px;
+
+                font-weight: 800;
+
+                letter-spacing: 1.2px;
+
+                color:
+                    rgba(255,255,255,0.58);
+
+                margin-bottom: 5px;
+            }}
+
+
+            .info-value {{
+
+                font-size: 12px;
+
+                font-weight: 700;
+
+                line-height: 1.45;
+
+                color:
+                    rgba(255,255,255,0.94);
+            }}
+
+
+            .lotte-line {{
+
+                position: absolute;
+
+                left: 0;
+
+                right: 0;
+
+                bottom: 0;
+
+                height: 4px;
+
+                background:
+                    linear-gradient(
+                        90deg,
+                        #9b1c31,
+                        #D71920,
+                        #f04b50
+                    );
+            }}
+
+
+            @media (max-width: 700px) {{
+
+                .ast-content {{
+                    padding:
+                        28px
+                        18px
+                        24px
+                        18px;
+                }}
+
+                .date-information {{
+                    flex-direction: column;
+                    gap: 7px;
+                }}
+
+                .time-row {{
+                    gap: 10px;
+                }}
+
+                .time-box {{
+                    min-width: 58px;
+                }}
+
+                .time-number {{
+                    font-size: 22px;
+                }}
+
+                .separator {{
+                    font-size: 20px;
+                }}
+
+                .bottom-information {{
+                    grid-template-columns: 1fr;
+                }}
+
+                .days-label {{
+                    font-size: 26px;
+                }}
+            }}
+
+        </style>
+
+        </head>
+
+
+        <body>
+
+        <div class="ast-board">
+
+            <div class="ast-overlay"></div>
+
+
+            <div class="ast-content">
+
+
+                <div class="countdown-to">
+
+                    COUNTDOWN TO
+
+                </div>
+
+
+                <h1 class="main-title">
+
+                    ANNUAL STOCK TAKE (AST)
+
+                </h1>
+
+
+                <div class="store-name">
+
+                    {store_name_safe}
+
+                </div>
+
+
+                <div class="batch-badge">
+
+                    BATCH {batch_safe}
+
+                </div>
+
+
+                <div class="date-information">
+
+                    <div>
+
+                        <span class="date-label">
+                            AST STORE :
+                        </span>
+
+                        <span class="date-value">
+                            {formatted_ast_date}
+                        </span>
+
                     </div>
 
-                    <div style="
-                        font-size:13px;
-                        font-weight:600;
-                        color:#444444;
-                        line-height:1.45;
-                    ">
-                        {next_ast["Coord"]}
+
+                    <div>
+
+                        <span class="date-label">
+                            WH LSI (H-14) :
+                        </span>
+
+                        <span class="date-value">
+                            {formatted_wh_date}
+                        </span>
+
                     </div>
 
                 </div>
 
 
-                <!-- TEAM -->
-                <div style="
-                    background:#fffafa;
-                    border:1px solid #f0dddd;
-                    border-radius:12px;
-                    padding:14px;
-                ">
+                <div class="main-countdown">
 
-                    <div style="
-                        font-size:10px;
-                        font-weight:800;
-                        color:#a41728;
-                        letter-spacing:0.8px;
-                        margin-bottom:6px;
-                    ">
-                        TEAM
+                    <div
+                        id="days"
+                        class="days-number"
+                    >
+                        0
                     </div>
 
-                    <div style="
-                        font-size:12px;
-                        color:#555555;
-                        line-height:1.5;
-                    ">
-                        {team_text}
+                    <div class="days-label">
+
+                        HARI
+
                     </div>
 
                 </div>
+
+
+                <div class="time-row">
+
+
+                    <div class="time-box">
+
+                        <div
+                            id="hours"
+                            class="time-number"
+                        >
+                            00
+                        </div>
+
+                        <div class="time-label">
+                            JAM
+                        </div>
+
+                    </div>
+
+
+                    <div class="separator">
+                        :
+                    </div>
+
+
+                    <div class="time-box">
+
+                        <div
+                            id="minutes"
+                            class="time-number"
+                        >
+                            00
+                        </div>
+
+                        <div class="time-label">
+                            MENIT
+                        </div>
+
+                    </div>
+
+
+                    <div class="separator">
+                        :
+                    </div>
+
+
+                    <div class="time-box">
+
+                        <div
+                            id="seconds"
+                            class="time-number"
+                        >
+                            00
+                        </div>
+
+                        <div class="time-label">
+                            DETIK
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="bottom-information">
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            KOORDINATOR
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {coordinator_safe}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-label">
+
+                            TIM AST
+
+                        </div>
+
+                        <div class="info-value">
+
+                            {team_text_safe}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
 
             </div>
 
+
+            <div class="lotte-line"></div>
+
+
         </div>
+
+
+        <script>
+
+            const targetDate =
+    new Date({target_epoch_ms});
+
+
+            function updateCountdown() {{
+
+                const now = new Date();
+
+                let distance =
+                    targetDate.getTime()
+                    - now.getTime();
+
+
+                if (distance <= 0) {{
+
+                    document.getElementById(
+                        "days"
+                    ).textContent = "0";
+
+                    document.getElementById(
+                        "hours"
+                    ).textContent = "00";
+
+                    document.getElementById(
+                        "minutes"
+                    ).textContent = "00";
+
+                    document.getElementById(
+                        "seconds"
+                    ).textContent = "00";
+
+                    return;
+                }}
+
+
+                const second = 1000;
+                const minute = second * 60;
+                const hour = minute * 60;
+                const day = hour * 24;
+
+
+                const days =
+                    Math.floor(
+                        distance / day
+                    );
+
+
+                const hours =
+                    Math.floor(
+                        (distance % day)
+                        / hour
+                    );
+
+
+                const minutes =
+                    Math.floor(
+                        (distance % hour)
+                        / minute
+                    );
+
+
+                const seconds =
+                    Math.floor(
+                        (distance % minute)
+                        / second
+                    );
+
+
+                document.getElementById(
+                    "days"
+                ).textContent =
+                    days;
+
+
+                document.getElementById(
+                    "hours"
+                ).textContent =
+                    String(hours).padStart(
+                        2,
+                        "0"
+                    );
+
+
+                document.getElementById(
+                    "minutes"
+                ).textContent =
+                    String(minutes).padStart(
+                        2,
+                        "0"
+                    );
+
+
+                document.getElementById(
+                    "seconds"
+                ).textContent =
+                    String(seconds).padStart(
+                        2,
+                        "0"
+                    );
+            }}
+
+
+            updateCountdown();
+
+
+            setInterval(
+                updateCountdown,
+                1000
+            );
+
+        </script>
+
+
+        </body>
+
+        </html>
         """
 
-
+        components.html(
+            store_countdown_html,
+            height=590,
+            scrolling=False
+        )
     # ==========================================
     # BATCH VIEW
     # ==========================================
@@ -1825,7 +2549,7 @@ if not upcoming_schedule.empty:
     # ==========================================
     # MAIN CARD
     # ==========================================
-
+if selected_store == "All Store" and not upcoming_schedule.empty:
     next_ast_html = f"""
     <style>
 
@@ -2042,7 +2766,7 @@ if not upcoming_schedule.empty:
 
     st.html(next_ast_html)
 
-else:
+elif upcoming_schedule.empty:
 
     st.info(
         "Tidak ada jadwal AST berikutnya untuk filter yang dipilih."
