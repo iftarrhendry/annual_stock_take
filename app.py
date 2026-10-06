@@ -1384,6 +1384,14 @@ if not upcoming_schedule.empty:
 
         store_name = str(selected_store)
 
+                # ==========================================
+        # BACKGROUND STORE COUNTDOWN
+        # ==========================================
+
+        warehouse_base64 = get_base64_image(
+            "assets/ast_warehouse.jpg"
+        )
+
         # ==========================================
         # TEAM
         # ==========================================
@@ -1451,9 +1459,38 @@ if not upcoming_schedule.empty:
             next_date
         )
 
+        ast_year = pd.Timestamp(
+            next_date
+        ).year
+
         formatted_wh_date = format_store_board_date(
             next_wh_date
         )
+
+                # ==========================================
+        # COUNTDOWN WH UNTUK STORE BOARD
+        # ==========================================
+
+        wh_board_info = get_countdown_info(
+            next_wh_date
+        )
+
+        wh_board_text = get_days_left_text(
+            next_wh_date
+        )
+
+        wh_board_colors = {
+            "urgent": "#ff666b",
+            "warning": "#ffbd59",
+            "safe": "#77d99a",
+            "neutral": "#b8bec8"
+        }
+
+        wh_board_color = wh_board_colors.get(
+            wh_board_info["level"],
+            "#b8bec8"
+        )
+
 
         # ==========================================
         # TARGET DATE UNTUK JAVASCRIPT
@@ -1535,22 +1572,21 @@ if not upcoming_schedule.empty:
                 border-radius: 22px;
 
                 background:
-                    radial-gradient(
-                        circle at 80% 15%,
-                        rgba(215,25,32,0.22),
-                        transparent 30%
-                    ),
-                    radial-gradient(
-                        circle at 15% 85%,
-                        rgba(255,255,255,0.08),
-                        transparent 28%
-                    ),
                     linear-gradient(
-                        125deg,
-                        #07172e 0%,
-                        #10294b 45%,
-                        #061426 100%
+                        90deg,
+                        rgba(3, 17, 38, 0.88) 0%,
+                        rgba(7, 30, 58, 0.76) 50%,
+                        rgba(4, 17, 34, 0.88) 100%
+                    ),
+                    url(
+                        "data:image/jpeg;base64,{warehouse_base64}"
                     );
+
+                background-size: cover;
+
+                background-position: center;
+
+                background-repeat: no-repeat;
 
                 box-shadow:
                     0 14px 38px
@@ -1607,6 +1643,43 @@ if not upcoming_schedule.empty:
                 pointer-events: none;
             }}
 
+                        .board-logo {{
+                position: absolute;
+                top: 22px;
+                left: 26px;
+
+                z-index: 5;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 70px;
+                height: 42px;
+
+                padding: 7px 10px;
+
+                background:
+                    rgba(255,255,255,0.92);
+
+                border:
+                    1px solid
+                    rgba(255,255,255,0.28);
+
+                border-radius: 10px;
+
+                box-shadow:
+                    0 5px 14px
+                    rgba(0,0,0,0.16);
+            }}
+
+
+            .board-logo img {{
+                max-width: 52px;
+                max-height: 26px;
+
+                object-fit: contain;
+            }}
 
             .ast-content {{
 
@@ -1918,6 +1991,34 @@ if not upcoming_schedule.empty:
                     rgba(255,255,255,0.94);
             }}
 
+                        .board-footer {{
+                width: 100%;
+
+                margin-top: 14px;
+                padding-top: 11px;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                border-top:
+                    1px solid
+                    rgba(255,255,255,0.12);
+
+                font-size: 9px;
+
+                font-weight: 800;
+
+                letter-spacing: 1px;
+
+                color:
+                    rgba(255,255,255,0.58);
+            }}
+
+
+            .board-footer-right {{
+                text-align: right;
+            }}
 
             .lotte-line {{
 
@@ -1979,6 +2080,25 @@ if not upcoming_schedule.empty:
                 .days-label {{
                     font-size: 26px;
                 }}
+                                .board-logo {{
+                    top: 14px;
+                    left: 14px;
+
+                    width: 58px;
+                    height: 36px;
+                }}
+
+
+                .board-footer {{
+                    flex-direction: column;
+                    gap: 5px;
+                    text-align: center;
+                }}
+
+
+                .board-footer-right {{
+                    text-align: center;
+                }}
             }}
 
         </style>
@@ -1991,6 +2111,15 @@ if not upcoming_schedule.empty:
         <div class="ast-board">
 
             <div class="ast-overlay"></div>
+
+                        <div class="board-logo">
+
+                <img
+                    src="data:image/png;base64,{logo_base64}"
+                    alt="Lotte"
+                >
+
+            </div>
 
 
             <div class="ast-content">
@@ -2041,13 +2170,23 @@ if not upcoming_schedule.empty:
 
                     <div>
 
-                        <span class="date-label">
-                            WH LSI (H-14) :
-                        </span>
+                      <span class="date-label">
+                          WH LSI (H-14) :
+                      </span>
 
-                        <span class="date-value">
-                            {formatted_wh_date}
-                        </span>
+                      <span class="date-value">
+                       {formatted_wh_date}
+                      </span>
+
+                      <span style="
+                         margin-left:7px;
+                         font-size:11px;
+                         font-weight:800;
+                         color:{wh_board_color};
+                         white-space:nowrap;
+                      ">
+                        • {wh_board_text}
+                      </span>
 
                     </div>
 
@@ -2171,6 +2310,22 @@ if not upcoming_schedule.empty:
                         </div>
 
                     </div>
+
+                                    <div class="board-footer">
+
+                    <div>
+
+                        LSI OPERATIONS
+
+                    </div>
+
+                    <div class="board-footer-right">
+
+                        PREPARE FOR AST {ast_year}
+
+                    </div>
+
+                </div>
 
 
                 </div>
