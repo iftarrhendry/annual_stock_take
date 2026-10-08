@@ -1,3 +1,5 @@
+from turtle import width
+
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -1506,6 +1508,10 @@ if not upcoming_schedule.empty:
         )
 
         ast_year = pd.Timestamp(
+        next_date
+        ).year
+
+        ast_year = pd.Timestamp(
             next_date
         ).year
 
@@ -1611,10 +1617,10 @@ if not upcoming_schedule.empty:
                 position: relative;
 
                 width: 100%;
-                min-height: 560px;
-
+                height: 620px;
+                min-height: 620px;
+                
                 overflow: hidden;
-
                 border-radius: 22px;
 
                 background:
@@ -1727,13 +1733,120 @@ if not upcoming_schedule.empty:
                 object-fit: contain;
             }}
 
+                        .board-logo {{
+                position: absolute;
+                top: 22px;
+                left: 26px;
+
+                z-index: 5;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 70px;
+                height: 42px;
+
+                padding: 7px 10px;
+
+                background:
+                    rgba(255,255,255,0.92);
+
+                border:
+                    1px solid
+                    rgba(255,255,255,0.28);
+
+                border-radius: 10px;
+
+                box-shadow:
+                    0 5px 14px
+                    rgba(0,0,0,0.16);
+            }}
+
+
+            .board-logo img {{
+                max-width: 52px;
+                max-height: 26px;
+
+                object-fit: contain;
+            }}
+
+                        .fullscreen-button {{
+                position: absolute;
+
+                top: 22px;
+                right: 26px;
+
+                z-index: 10;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                gap: 7px;
+
+                padding: 9px 14px;
+
+                background: rgba(255,255,255,0.92);
+
+                color: #1c2b40;
+
+                border: 1px solid rgba(255,255,255,0.35);
+
+                border-radius: 10px;
+
+                font-size: 10px;
+                font-weight: 800;
+
+                letter-spacing: 0.6px;
+
+                cursor: pointer;
+
+                box-shadow:
+                    0 4px 14px
+                    rgba(0,0,0,0.16);
+
+                transition:
+                    transform 0.15s ease,
+                    background 0.15s ease;
+            }}
+
+
+            .fullscreen-button:hover {{
+                background: #ffffff;
+                transform: translateY(-1px);
+            }}
+
+            html,
+            body {{
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }}
+
+
+            .ast-board {{
+                width: 100%;
+                height: 100%;
+                min-height: 620px;
+            }}
+
+
+            .ast-content {{
+                 width: 100%;
+                height: 100%;
+                min-height: 620px;
+            }}
+
             .ast-content {{
 
                 position: relative;
 
                 z-index: 2;
 
-                min-height: 560px;
+                height: 620px;
+                min-height: 620px;
 
                 display: flex;
 
@@ -1747,7 +1860,6 @@ if not upcoming_schedule.empty:
 
                 padding: 34px 40px 28px 40px;
             }}
-
 
             .countdown-to {{
 
@@ -2066,6 +2178,35 @@ if not upcoming_schedule.empty:
                 text-align: right;
             }}
 
+                        .board-footer {{
+                width: 100%;
+
+                margin-top: 14px;
+                padding-top: 11px;
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                border-top:
+                    1px solid
+                    rgba(255,255,255,0.12);
+
+                font-size: 9px;
+
+                font-weight: 800;
+
+                letter-spacing: 1px;
+
+                color:
+                    rgba(255,255,255,0.58);
+            }}
+
+
+            .board-footer-right {{
+                text-align: right;
+            }}
+
             .lotte-line {{
 
                 position: absolute;
@@ -2087,6 +2228,152 @@ if not upcoming_schedule.empty:
                     );
             }}
 
+                        /* ==========================================
+               LARGE / FULLSCREEN DISPLAY
+               ========================================== */
+
+            @media (
+                min-width: 1000px
+            ) and (
+                min-height: 700px
+            ) {{
+
+                .ast-content {{
+                    padding:
+                        48px
+                        70px
+                        28px
+                        70px;
+
+                    justify-content: flex-start;
+                }}
+
+
+                .countdown-to {{
+                    font-size: 17px;
+                    letter-spacing: 5px;
+                    margin-bottom: 8px;
+                }}
+
+
+                .main-title {{
+                    font-size: 58px;
+                    line-height: 1;
+                }}
+
+
+                .store-name {{
+                    margin-top: 16px;
+                    font-size: 25px;
+                }}
+
+
+                .batch-badge {{
+                    margin-top: 11px;
+                    padding: 7px 16px;
+                    font-size: 11px;
+                }}
+
+
+                .date-information {{
+                    margin-top: 24px;
+                    gap: 10px 34px;
+
+                    font-size: 15px;
+                }}
+
+
+                .main-countdown {{
+                    margin-top: 38px;
+                    gap: 18px;
+                }}
+
+
+                .days-number {{
+                    font-size: 150px;
+                    line-height: 0.80;
+                    letter-spacing: -6px;
+                }}
+
+
+                .days-label {{
+                    font-size: 46px;
+                    padding-bottom: 11px;
+                }}
+
+
+                .time-row {{
+                    margin-top: 38px;
+                    gap: 36px;
+                }}
+
+
+                .time-box {{
+                    min-width: 110px;
+                }}
+
+
+                .time-number {{
+                    font-size: 46px;
+                }}
+
+
+                .time-label {{
+                    margin-top: 9px;
+
+                    font-size: 11px;
+
+                    letter-spacing: 1.8px;
+                }}
+
+
+                .separator {{
+                    margin-top: -17px;
+
+                    font-size: 38px;
+                }}
+
+
+                .bottom-information {{
+                    margin-top: auto;
+
+                    width: 100%;
+
+                    grid-template-columns:
+                        0.8fr
+                        1.2fr;
+
+                    gap: 20px;
+
+                    padding-top: 18px;
+                }}
+
+
+                .info-item {{
+                    min-height: 75px;
+
+                    padding: 15px 18px;
+                }}
+
+
+                .info-label {{
+                    font-size: 10px;
+                    margin-bottom: 7px;
+                }}
+
+
+                .info-value {{
+                    font-size: 14px;
+                    line-height: 1.5;
+                }}
+
+
+                .board-footer {{
+                    margin-top: 12px;
+                    padding-top: 10px;
+                }}
+
+            }}
 
             @media (max-width: 700px) {{
 
@@ -2145,6 +2432,26 @@ if not upcoming_schedule.empty:
                 .board-footer-right {{
                     text-align: center;
                 }}
+
+                                .board-logo {{
+                    top: 14px;
+                    left: 14px;
+
+                    width: 58px;
+                    height: 36px;
+                }}
+
+
+                .board-footer {{
+                    flex-direction: column;
+                    gap: 5px;
+                    text-align: center;
+                }}
+
+
+                .board-footer-right {{
+                    text-align: center;
+                }}
             }}
 
         </style>
@@ -2167,6 +2474,21 @@ if not upcoming_schedule.empty:
 
             </div>
 
+                        <div class="board-logo">
+
+                <img
+                    src="data:image/png;base64,{logo_base64}"
+                    alt="Lotte"
+                >
+
+            </div>
+
+            <button
+             class="fullscreen-button"
+              onclick="openFullscreen()"
+            >
+             ⛶ FULL SCREEN
+            </button>
 
             <div class="ast-content">
 
@@ -2376,7 +2698,6 @@ if not upcoming_schedule.empty:
 
                 </div>
 
-
             </div>
 
 
@@ -2387,6 +2708,35 @@ if not upcoming_schedule.empty:
 
 
         <script>
+
+                function openFullscreen() {{
+
+                    const iframe =
+                      window.frameElement;
+
+                    if (!iframe) {{
+                       return;
+                     }}
+
+                    if (iframe.requestFullscreen) {{
+
+                        iframe.requestFullscreen()
+                        .catch((error) => {{
+                            console.error(
+                                "Fullscreen gagal:",
+                                error
+                        );
+                    }});
+
+                    }} else if (
+                        iframe.webkitRequestFullscreen
+                    ) {{
+
+                        iframe.webkitRequestFullscreen();
+
+                    }}
+
+                }}
 
             const targetDate =
     new Date({target_epoch_ms});
@@ -2507,9 +2857,9 @@ if not upcoming_schedule.empty:
         """
 
         components.html(
-            store_countdown_html,
-            height=590,
-            scrolling=False
+           store_countdown_html,
+           height=635,
+           scrolling=False
         )
     # ==========================================
     # BATCH VIEW
@@ -2688,7 +3038,7 @@ if not upcoming_schedule.empty:
                         letter-spacing:0.6px;
                     "
                 >
-                    LIHAT AST
+                    COUNTDOWN AST
                 </a>
 
             </div>
