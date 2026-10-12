@@ -125,6 +125,51 @@ hr {
     margin-top: 0.6rem !important;
     margin-bottom: 0.8rem !important;
 }
+
+/* ==========================================
+   MOBILE KPI
+   Desktop tidak terpengaruh
+   ========================================== */
+
+@media (max-width: 700px) {
+
+    .kpi-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 9px !important;
+
+        margin-top: 2px !important;
+        margin-bottom: 16px !important;
+    }
+
+
+    .kpi-grid > div {
+        padding: 14px 13px !important;
+
+        border-radius: 12px !important;
+
+        min-width: 0 !important;
+        min-height: 118px !important;
+
+        box-shadow:
+            0 4px 12px
+            rgba(0,0,0,0.045) !important;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    /* existing KPI CSS di atas */
+
+
+    .ast-progress-mobile {
+        margin-top: 0 !important;
+        margin-bottom: 16px !important;
+    }
+
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -968,13 +1013,16 @@ completed_count = (
 
 
 kpi_html = f"""
-<div style="
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
-    gap:16px;
-    margin-top:5px;
-    margin-bottom:30px;
-">
+<div
+    class="kpi-grid"
+    style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
+        gap:16px;
+        margin-top:5px;
+        margin-bottom:30px;
+    "
+>
 
     <!-- TOTAL SCHEDULE -->
     <div style="
@@ -2452,6 +2500,503 @@ if not upcoming_schedule.empty:
                 }}
             }}
 
+                        /* ==========================================
+               MOBILE STORE COUNTDOWN - NORMAL
+               Desktop tidak terpengaruh
+               ========================================== */
+
+            @media (max-width: 700px) {{
+
+                .ast-board {{
+                    width: 100% !important;
+
+                    height: 620px !important;
+                    min-height: 620px !important;
+
+                    border-radius: 16px !important;
+                }}
+
+
+                .ast-content {{
+                    width: 100% !important;
+
+                    height: 620px !important;
+                    min-height: 620px !important;
+
+                    padding:
+                        58px
+                        14px
+                        12px
+                        14px !important;
+
+                    justify-content: flex-start !important;
+                }}
+
+
+                /* LOGO */
+
+                .board-logo {{
+                    top: 12px !important;
+                    left: 12px !important;
+
+                    width: 58px !important;
+                    height: 34px !important;
+
+                    padding: 5px 7px !important;
+
+                    border-radius: 8px !important;
+                }}
+
+
+                .board-logo img {{
+                    max-width: 44px !important;
+                    max-height: 22px !important;
+                }}
+
+
+                /* FULLSCREEN BUTTON */
+
+                .fullscreen-button {{
+                    top: 12px !important;
+                    right: 12px !important;
+
+                    padding:
+                        6px
+                        8px !important;
+
+                    border-radius: 8px !important;
+
+                    font-size: 8px !important;
+
+                    letter-spacing:
+                        0.3px !important;
+
+                    gap: 4px !important;
+                }}
+
+
+                /* TITLE */
+
+                .countdown-to {{
+                    font-size: 9px !important;
+
+                    letter-spacing:
+                        2.6px !important;
+
+                    margin-bottom:
+                        4px !important;
+                }}
+
+
+                .main-title {{
+                    font-size: 26px !important;
+
+                    line-height: 1.05 !important;
+
+                    letter-spacing:
+                        0.4px !important;
+
+                    max-width: 250px;
+
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                }}
+
+
+                .store-name {{
+                    margin-top: 9px !important;
+
+                    font-size: 16px !important;
+
+                    line-height: 1.2 !important;
+                }}
+
+
+                .batch-badge {{
+                    margin-top: 7px !important;
+
+                    padding:
+                        5px
+                        10px !important;
+
+                    font-size: 8px !important;
+                }}
+
+
+                /* DATE */
+
+                .date-information {{
+                    margin-top: 11px !important;
+
+                    flex-direction: column !important;
+
+                    gap: 4px !important;
+
+                    font-size: 10px !important;
+
+                    line-height: 1.35 !important;
+                }}
+
+
+                /* COUNTDOWN HARI */
+
+                .main-countdown {{
+                    margin-top: 15px !important;
+
+                    gap: 8px !important;
+                }}
+
+
+                .days-number {{
+                    font-size: 58px !important;
+
+                    line-height: 0.85 !important;
+
+                    letter-spacing:
+                        -2px !important;
+                }}
+
+
+                .days-label {{
+                    font-size: 21px !important;
+
+                    padding-bottom:
+                        5px !important;
+
+                    letter-spacing:
+                        1px !important;
+                }}
+
+
+                /* JAM MENIT DETIK */
+
+                .time-row {{
+                    margin-top: 16px !important;
+
+                    gap: 9px !important;
+
+                    width: 100% !important;
+                }}
+
+
+                .time-box {{
+                    min-width: 52px !important;
+                }}
+
+
+                .time-number {{
+                    font-size: 21px !important;
+                }}
+
+
+                .time-label {{
+                    margin-top: 5px !important;
+
+                    font-size: 7px !important;
+
+                    letter-spacing:
+                        1px !important;
+                }}
+
+
+                .separator {{
+                    margin-top: -12px !important;
+
+                    font-size: 17px !important;
+                }}
+
+
+                /* COORDINATOR & TEAM */
+
+                .bottom-information {{
+                    width: 100% !important;
+
+                    margin-top: 16px !important;
+
+                    padding-top: 10px !important;
+
+                    grid-template-columns:
+                        1fr !important;
+
+                    gap: 7px !important;
+                }}
+
+
+                .info-item {{
+                    min-height: auto !important;
+
+                    padding:
+                        9px
+                        11px !important;
+
+                    border-radius:
+                        9px !important;
+                }}
+
+
+                .info-label {{
+                    font-size: 7px !important;
+
+                    margin-bottom:
+                        4px !important;
+                }}
+
+
+                .info-value {{
+                    font-size: 9px !important;
+
+                    line-height: 1.35 !important;
+                }}
+
+
+                /* FOOTER */
+
+                .board-footer {{
+                    margin-top: auto !important;
+
+                    padding-top:
+                        7px !important;
+
+                    font-size:
+                        6.5px !important;
+
+                    letter-spacing:
+                        0.7px !important;
+
+                    flex-direction: row !important;
+                }}
+
+
+                .board-footer-right {{
+                    text-align: right !important;
+                }}
+
+            }}
+
+
+
+            /* ==========================================
+               MOBILE FULLSCREEN
+               Aktif saat iframe menjadi tinggi
+               ========================================== */
+
+            @media (
+                max-width: 700px
+            ) and (
+                min-height: 700px
+            ) {{
+
+                .ast-board {{
+                    width: 100vw !important;
+
+                    height: 100vh !important;
+                    min-height: 100vh !important;
+
+                    border-radius: 0 !important;
+                }}
+
+
+                .ast-content {{
+                    height: 100vh !important;
+                    min-height: 100vh !important;
+
+                    padding:
+                        82px
+                        24px
+                        22px
+                        24px !important;
+
+                    justify-content:
+                        flex-start !important;
+                }}
+
+
+                .board-logo {{
+                    top: 20px !important;
+                    left: 20px !important;
+
+                    width: 72px !important;
+                    height: 44px !important;
+                }}
+
+
+                .board-logo img {{
+                    max-width: 55px !important;
+                    max-height: 28px !important;
+                }}
+
+
+                .fullscreen-button {{
+                    top: 20px !important;
+                    right: 20px !important;
+
+                    padding:
+                        8px
+                        10px !important;
+
+                    font-size:
+                        8.5px !important;
+                }}
+
+
+                .countdown-to {{
+                    font-size: 12px !important;
+
+                    letter-spacing:
+                        4px !important;
+                }}
+
+
+                .main-title {{
+                    font-size: 38px !important;
+
+                    max-width: 330px !important;
+
+                    line-height: 1.05 !important;
+                }}
+
+
+                .store-name {{
+                    margin-top: 17px !important;
+
+                    font-size: 22px !important;
+                }}
+
+
+                .batch-badge {{
+                    margin-top: 11px !important;
+
+                    padding:
+                        7px
+                        14px !important;
+
+                    font-size: 10px !important;
+                }}
+
+
+                .date-information {{
+                    margin-top: 25px !important;
+
+                    gap: 8px !important;
+
+                    font-size: 13px !important;
+                }}
+
+
+                .main-countdown {{
+                    margin-top: 32px !important;
+
+                    gap: 13px !important;
+                }}
+
+
+                .days-number {{
+                    font-size: 100px !important;
+
+                    letter-spacing:
+                        -4px !important;
+                }}
+
+
+                .days-label {{
+                    font-size: 35px !important;
+
+                    padding-bottom:
+                        9px !important;
+                }}
+
+
+                .time-row {{
+                    margin-top: 32px !important;
+
+                    gap: 22px !important;
+                }}
+
+
+                .time-box {{
+                    min-width: 72px !important;
+                }}
+
+
+                .time-number {{
+                    font-size: 34px !important;
+                }}
+
+
+                .time-label {{
+                    margin-top: 8px !important;
+
+                    font-size: 9px !important;
+
+                    letter-spacing:
+                        1.5px !important;
+                }}
+
+
+                .separator {{
+                    margin-top: -15px !important;
+
+                    font-size: 27px !important;
+                }}
+
+
+                .bottom-information {{
+                    margin-top: auto !important;
+
+                    padding-top: 18px !important;
+
+                    gap: 12px !important;
+                }}
+
+
+                .info-item {{
+                    padding:
+                        14px
+                        16px !important;
+
+                    border-radius:
+                        12px !important;
+                }}
+
+
+                .info-label {{
+                    font-size: 9px !important;
+
+                    margin-bottom:
+                        7px !important;
+                }}
+
+
+                .info-value {{
+                    font-size: 13px !important;
+
+                    line-height: 1.45 !important;
+                }}
+
+
+                .board-footer {{
+                    margin-top: 18px !important;
+
+                    padding-top:
+                        12px !important;
+
+                    font-size: 8px !important;
+
+                    flex-direction:
+                        column !important;
+
+                    gap: 5px !important;
+
+                    text-align: center !important;
+                }}
+
+
+                .board-footer-right {{
+                    text-align: center !important;
+                }}
+
+            }}
+
         </style>
 
         </head>
@@ -3144,7 +3689,9 @@ if not upcoming_schedule.empty:
             </div>
 
 
-            <div style="
+            <div
+              class="stores-grid"
+              style="
                 display:grid;
                 grid-template-columns:
                     repeat(3, minmax(0,1fr));
@@ -3318,7 +3865,8 @@ if selected_store == "All Store" and not upcoming_schedule.empty:
             }}
 
             .stores-grid {{
-                grid-template-columns:1fr;
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
             }}
 
         }}
