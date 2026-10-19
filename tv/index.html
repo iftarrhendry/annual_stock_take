@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annual Stock Take TV Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff9f9;
+      color: #252525;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    button, select {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      background:
+        radial-gradient(circle at top right, rgba(215,25,32,0.05), transparent 26%),
+        #fffafa;
+    }
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+    .sidebar {
+      width: 300px;
+      min-width: 300px;
+      min-height: 100vh;
+      padding: 28px 22px;
+      background: #ffffff;
+      border-right: 2px solid #d71920;
+    }
+
+    .brand-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 16px;
+      border: 1px solid #f0d9dc;
+      border-left: 5px solid #d71920;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffffff 0%, #fff7f7 100%);
+      box-shadow: 0 5px 16px rgba(180,0,20,0.06);
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 44px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: #a41429;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #888888;
+    }
+
+    .filter-title {
+      margin-top: 34px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .filter-caption {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #888888;
+      line-height: 1.45;
+    }
+
+    .filter-group {
+      margin-top: 24px;
+    }
+
+    .filter-label {
+      margin-bottom: 8px;
+      color: #a41429;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 12px 11px;
+      border: 1px solid #e6e6e6;
+      border-radius: 10px;
+      background: #ffffff;
+      font-size: 14px;
+      color: #333333;
+      outline: none;
+    }
+
+    .active-filter {
+      margin-top: 26px;
+      padding: 14px 14px;
+      border: 1px solid #f0d9dc;
+      border-radius: 12px;
+      background: #fff8f8;
+    }
+
+    .active-filter-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #a41429;
+      letter-spacing: 0.7px;
+    }
+
+    .active-filter-text {
+      margin-top: 7px;
+      font-size: 12px;
+      color: #777777;
+      line-height: 1.45;
+    }
+
+    .sidebar-actions {
+      margin-top: 22px;
+    }
+
+    .outline-btn {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d71920;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #b5122b;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* =========================
+       MAIN
+       ========================= */
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 28px 34px 42px 34px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 112px;
+      padding: 20px 26px;
+      border-left: 7px solid #d71920;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+      box-shadow: 0 4px 14px rgba(180,0,20,0.08);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-logo {
+      width: 82px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .header-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #b5122b;
+    }
+
+    .header-subtitle {
+      margin-top: 6px;
+      font-size: 15px;
+      color: #666666;
+    }
+
+    .fullscreen-app-btn {
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: #d71920;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .demo-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 14px;
+      border: 1px solid #f0c36d;
+      border-radius: 10px;
+      background: #fff8df;
+      color: #735514;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       KPI
+       ========================= */
+    .kpi-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .kpi-card {
+      flex: 1 1 210px;
+      min-height: 142px;
+      padding: 22px 22px;
+      border: 1px solid #ededed;
+      border-top: 5px solid #a8172e;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.04);
+    }
+
+    .kpi-card.upcoming {
+      border-top-color: #e11b22;
+      background: #fff9f9;
+    }
+
+    .kpi-card.today {
+      border-top-color: #e11b22;
+      background: #e11b22;
+      color: #ffffff;
+    }
+
+    .kpi-card.completed {
+      border-top-color: #666666;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #777777;
+    }
+
+    .kpi-card.today .kpi-label {
+      color: #ffffff;
+    }
+
+    .kpi-value {
+      margin-top: 22px;
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .kpi-desc {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #999999;
+    }
+
+    .kpi-card.today .kpi-desc {
+      color: #ffffff;
+    }
+
+    .progress-card {
+      margin-top: 20px;
+      padding: 20px 24px;
+      border: 1px solid #ededed;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 5px 16px rgba(0,0,0,0.035);
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-end;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #a8172e;
+      letter-spacing: 0.7px;
+    }
+
+    .progress-text {
+      margin-top: 7px;
+      font-size: 13px;
+      color: #888888;
+    }
+
+    .progress-percent {
+      color: #e11b22;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .progress-track {
+      margin-top: 16px;
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #f0eaea;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #e11b22;
+      border-radius: 999px;
+    }
+
+    /* =========================
+       MAIN CARD
+       ========================= */
+    .content-card {
+      margin-top: 26px;
+      padding: 26px;
+      border: 1px solid #eeeeee;
+      border-top: 6px solid #e11b22;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 7px 20px rgba(0,0,0,0.045);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-title {
+      color: #d71920;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+
+    .batch-pill {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: #e11b22;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .date-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .date-card {
+      flex: 1;
+      padding: 16px;
+      border: 1px solid #f0dddd;
+      border-radius: 13px;
+      background: #ffffff;
+    }
+
+    .mini-label {
+      color: #a8172e;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+
+    .date-value {
+      margin-top: 10px;
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .date-note {
+      margin-top: 6px;
+      color: #888888;
+      font-size: 11px;
+    }
+
+    .batch-layout {
+      display: flex;
+      align-items: stretch;
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    .store-area {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .store-area-label {
+      margin-bottom: 10px;
+      color: #8b8b8b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+
+    .stores-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .store-card {
+      flex: 1 1 230px;
+      min-width: 0;
+      padding: 15px;
+      border: 1px solid #f0dddd;
+      border-radius: 13px;
+      background: #fffafa;
+    }
+
+    .store-name {
+      min-height: 36px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .store-divider {
+      height: 1px;
+      margin: 10px 0;
+      background: #f2e1e3;
+    }
+
+    .store-small-label {
+      margin-top: 8px;
+      color: #a8172e;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+
+    .store-small-value {
+      margin-top: 4px;
+      color: #555555;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .view-store-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 9px;
+      background: #e11b22;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .batch-countdown {
+      width: 280px;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 28px 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #c80018 0%, #ed2529 100%);
+      color: #ffffff;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(200,0,24,0.16);
+    }
+
+    .batch-countdown-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+    }
+
+    .batch-countdown-text {
+      margin-top: 18px;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .batch-countdown-footer {
+      margin-top: 28px;
+      font-size: 10px;
+      opacity: 0.85;
+    }
+
+    /* =========================
+       STORE COUNTDOWN
+       ========================= */
+    .store-board {
+      position: relative;
+      min-height: 640px;
+      overflow: hidden;
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(5,15,28,0.85), rgba(5,15,28,0.92)),
+        url("assets/ast_warehouse.jpg");
+      background-size: cover;
+      background-position: center;
+      color: #ffffff;
+    }
+
+    .store-board-inner {
+      position: relative;
+      min-height: 640px;
+      padding: 30px 42px 26px 42px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .board-top {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .board-logo-box {
+      width: 104px;
+      height: 62px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .board-logo {
+      max-width: 80px;
+      max-height: 42px;
+      object-fit: contain;
+    }
+
+    .board-full-btn {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #152033;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .board-kicker {
+      margin-top: 4px;
+      font-size: 13px;
+      letter-spacing: 5px;
+      opacity: 0.75;
+    }
+
+    .board-title {
+      margin-top: 6px;
+      font-size: 48px;
+      line-height: 1.02;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .board-store {
+      margin-top: 15px;
+      font-size: 25px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .board-batch {
+      margin-top: 10px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: #d71920;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .board-dates {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 26px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .board-date-muted {
+      opacity: 0.65;
+      margin-right: 5px;
+    }
+
+    .board-wh-status {
+      color: #ff777c;
+      margin-left: 5px;
+    }
+
+    .board-main-countdown {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 14px;
+    }
+
+    .board-days {
+      font-size: 118px;
+      line-height: 0.8;
+      font-weight: 900;
+      letter-spacing: -5px;
+    }
+
+    .board-days-label {
+      padding-bottom: 8px;
+      font-size: 38px;
+      font-weight: 900;
+    }
+
+    .board-time {
+      margin-top: 28px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .board-time-box {
+      width: 90px;
+      text-align: center;
+    }
+
+    .board-time-number {
+      font-size: 36px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .board-time-label {
+      margin-top: 7px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      opacity: 0.65;
+    }
+
+    .board-time-sep {
+      margin-top: -2px;
+      font-size: 30px;
+      opacity: 0.4;
+    }
+
+    .board-info {
+      width: 100%;
+      margin-top: auto;
+      display: flex;
+      gap: 14px;
+    }
+
+    .board-info-card {
+      flex: 1;
+      padding: 15px 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 13px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .board-info-card.team {
+      flex: 1.5;
+    }
+
+    .board-info-label {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      opacity: 0.58;
+      font-weight: 800;
+    }
+
+    .board-info-value {
+      margin-top: 7px;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .board-footer {
+      width: 100%;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 9px;
+      letter-spacing: 1.8px;
+      opacity: 0.55;
+    }
+
+    /* fullscreen board */
+    .store-board:fullscreen,
+    .store-board:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+    }
+
+    .store-board:fullscreen .store-board-inner,
+    .store-board:-webkit-full-screen .store-board-inner {
+      min-height: 100vh;
+      padding: 48px 70px 30px 70px;
+    }
+
+    .store-board:fullscreen .board-title,
+    .store-board:-webkit-full-screen .board-title {
+      font-size: 64px;
+    }
+
+    .store-board:fullscreen .board-days,
+    .store-board:-webkit-full-screen .board-days {
+      font-size: 170px;
+    }
+
+    .store-board:fullscreen .board-days-label,
+    .store-board:-webkit-full-screen .board-days-label {
+      font-size: 52px;
+    }
+
+    /* =========================
+       TABLE
+       ========================= */
+    .table-section {
+      margin-top: 28px;
+    }
+
+    .table-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #333333;
+    }
+
+    .table-caption {
+      margin-top: 6px;
+      color: #888888;
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      margin-top: 14px;
+      overflow: auto;
+      border: 1px solid #eeeeee;
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1020px;
+    }
+
+    th {
+      padding: 12px 12px;
+      background: #fff3f3;
+      color: #a8172e;
+      border-bottom: 1px solid #eedbdd;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.6px;
+    }
+
+    td {
+      padding: 12px 12px;
+      border-bottom: 1px solid #f2f2f2;
+      font-size: 11px;
+      color: #444444;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .status-upcoming {
+      background: #fff0f1;
+      color: #b5122b;
+    }
+
+    .status-today {
+      background: #d71920;
+      color: #ffffff;
+    }
+
+    .status-completed {
+      background: #eeeeee;
+      color: #666666;
+    }
+
+    .empty-state {
+      padding: 80px 20px;
+      text-align: center;
+      color: #777777;
+    }
+
+    .empty-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #333333;
+    }
+
+    .empty-text {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* =========================
+       TV / LARGE SCREEN
+       ========================= */
+    @media (min-width: 1600px) {
+      .sidebar {
+        width: 330px;
+        min-width: 330px;
+        padding-left: 26px;
+        padding-right: 26px;
+      }
+
+      .main {
+        padding-left: 42px;
+        padding-right: 42px;
+      }
+
+      .header-title {
+        font-size: 34px;
+      }
+
+      .kpi-card {
+        min-height: 154px;
+      }
+
+      .content-card {
+        padding: 30px;
+      }
+
+      .store-board {
+        min-height: 680px;
+      }
+
+      .store-board-inner {
+        min-height: 680px;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .sidebar {
+        width: 260px;
+        min-width: 260px;
+      }
+
+      .main {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+
+      .batch-layout {
+        display: block;
+      }
+
+      .batch-countdown {
+        width: 100%;
+        min-width: 0;
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app-shell {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        min-width: 0;
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 2px solid #d71920;
+      }
+
+      .main {
+        padding: 18px 14px 30px 14px;
+      }
+
+      .header {
+        min-height: auto;
+        padding: 16px;
+      }
+
+      .header-left {
+        gap: 14px;
+      }
+
+      .header-logo {
+        width: 56px;
+      }
+
+      .header-title {
+        font-size: 22px;
+      }
+
+      .header-subtitle {
+        font-size: 12px;
+      }
+
+      .fullscreen-app-btn {
+        display: none;
+      }
+
+      .date-row {
+        display: block;
+      }
+
+      .date-card + .date-card {
+        margin-top: 10px;
+      }
+
+      .store-board-inner {
+        padding: 18px 14px;
+      }
+
+      .board-title {
+        font-size: 30px;
+      }
+
+      .board-days {
+        font-size: 72px;
+      }
+
+      .board-days-label {
+        font-size: 25px;
+      }
+
+      .board-info {
+        display: block;
+      }
+
+      .board-info-card + .board-info-card {
+        margin-top: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+
+    <div class="brand-card">
+      <img class="brand-logo" src="assets/logo.png" alt="Lotte"
+           onerror="this.style.display='none';">
+      <div>
+        <div class="brand-title">AST CONTROL</div>
+        <div class="brand-subtitle">Operations Dashboard</div>
+      </div>
+    </div>
+
+    <div class="filter-title">Dashboard Filter</div>
+    <div class="filter-caption">
+      Pilih batch atau store yang ingin ditampilkan.
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Batch</div>
+      <select id="batchFilter" class="filter-select">
+        <option value="">All Batch</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Store</div>
+      <select id="storeFilter" class="filter-select">
+        <option value="">All Store</option>
+      </select>
+    </div>
+
+    <div class="active-filter">
+      <div class="active-filter-label">ACTIVE FILTER</div>
+      <div id="activeFilterText" class="active-filter-text">
+        Showing all schedules
+      </div>
+    </div>
+
+    <div class="sidebar-actions">
+      <button class="outline-btn" id="resetFilterBtn">
+        RESET FILTER
+      </button>
+    </div>
+
+  </aside>
+
+  <main class="main">
+
+    <header class="header">
+      <div class="header-left">
+        <img class="header-logo" src="assets/logo.png" alt="Lotte"
+             onerror="this.style.display='none';">
+
+        <div>
+          <div class="header-title">
+            Annual Stock Take Dashboard
+          </div>
+
+          <div class="header-subtitle">
+            Monitoring and scheduling dashboard for Annual Stock Take
+          </div>
+        </div>
+      </div>
+
+      <button id="fullscreenAppBtn" class="fullscreen-app-btn">
+        ⛶ FULL SCREEN TV
+      </button>
+    </header>
+
+    <div id="demoBanner" class="demo-banner">
+      DEMO DATA — jalankan build_tv_data.py untuk membuat data aktual dari DATA_AST_LSI.xlsx.
+    </div>
+
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">TOTAL SCHEDULE</div>
+        <div id="kpiTotal" class="kpi-value">0</div>
+        <div class="kpi-desc">Total AST pada filter aktif</div>
+      </div>
+
+      <div class="kpi-card upcoming">
+        <div class="kpi-label">UPCOMING</div>
+        <div id="kpiUpcoming" class="kpi-value">0</div>
+        <div id="kpiSoonDesc" class="kpi-desc">0 schedule dalam ≤ 3 hari</div>
+      </div>
+
+      <div class="kpi-card today">
+        <div class="kpi-label">TODAY</div>
+        <div id="kpiToday" class="kpi-value">0</div>
+        <div class="kpi-desc">AST yang berlangsung hari ini</div>
+      </div>
+
+      <div class="kpi-card completed">
+        <div class="kpi-label">COMPLETED</div>
+        <div id="kpiCompleted" class="kpi-value">0</div>
+        <div class="kpi-desc">Schedule yang telah selesai</div>
+      </div>
+    </section>
+
+    <section class="progress-card">
+      <div class="progress-head">
+        <div>
+          <div class="progress-label">AST PROGRESS</div>
+          <div id="progressText" class="progress-text">
+            0 dari 0 schedule telah selesai
+          </div>
+        </div>
+        <div id="progressPercent" class="progress-percent">0%</div>
+      </div>
+
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+    </section>
+
+    <section id="mainContent"></section>
+
+    <section class="table-section">
+      <div class="table-title">Jadwal AST</div>
+      <div class="table-caption">
+        Jadwal persiapan warehouse dan pelaksanaan Annual Stock Take.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>BATCH</th>
+              <th>STORE</th>
+              <th>WH LSI (H-14)</th>
+              <th>TANGGAL AST</th>
+              <th>SISA WAKTU</th>
+              <th>KOORDINATOR</th>
+              <th>TIM</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<script>
+(function () {
+
+  var allRecords = [];
+  var timerId = null;
+
+  var monthNames = [
+    "JANUARI", "FEBRUARI", "MARET", "APRIL",
+    "MEI", "JUNI", "JULI", "AGUSTUS",
+    "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
+  ];
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function trimText(value) {
+    if (value === null || value === undefined) {
+      return "";
+    }
+    return String(value).replace(/^\s+|\s+$/g, "");
+  }
+
+  function safeText(value) {
+    var text = trimText(value);
+    return text || "-";
+  }
+
+  function escapeHtml(value) {
+    var div = document.createElement("div");
+    div.appendChild(document.createTextNode(safeText(value)));
+    return div.innerHTML;
+  }
+
+  function parseDateWib(isoDate) {
+    if (!isoDate) {
+      return null;
+    }
+    return new Date(isoDate + "T00:00:00+07:00");
+  }
+
+  function todayWibDateKey() {
+    var now = new Date();
+    var wibMs = now.getTime() + (7 * 60 * 60 * 1000);
+    var wib = new Date(wibMs);
+
+    var y = wib.getUTCFullYear();
+    var m = String(wib.getUTCMonth() + 1);
+    var d = String(wib.getUTCDate());
+
+    if (m.length < 2) m = "0" + m;
+    if (d.length < 2) d = "0" + d;
+
+    return y + "-" + m + "-" + d;
+  }
+
+  function dateKeyToMsWib(dateKey) {
+    var d = parseDateWib(dateKey);
+    return d ? d.getTime() : NaN;
+  }
+
+  function formatDateId(dateKey) {
+    if (!dateKey) {
+      return "-";
+    }
+
+    var parts = dateKey.split("-");
+    if (parts.length !== 3) {
+      return dateKey;
+    }
+
+    var year = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var day = parseInt(parts[2], 10);
+
+    if (!year || !month || !day) {
+      return dateKey;
+    }
+
+    return day + " " + monthNames[month - 1] + " " + year;
+  }
+
+  function getStatus(record) {
+    var today = todayWibDateKey();
+
+    if (!record.ast_date) {
+      return "Unknown";
+    }
+
+    if (record.ast_date < today) {
+      return "Completed";
+    }
+
+    if (record.ast_date === today) {
+      return "Today";
+    }
+
+    return "Upcoming";
+  }
+
+  function daysUntil(dateKey) {
+    var target = dateKeyToMsWib(dateKey);
+    if (isNaN(target)) {
+      return null;
+    }
+
+    var now = new Date().getTime();
+    return Math.floor((target - now) / 86400000);
+  }
+
+  function daysLeftText(dateKey) {
+    if (!dateKey) {
+      return "-";
+    }
+
+    var target = dateKeyToMsWib(dateKey);
+    var now = new Date().getTime();
+
+    if (isNaN(target)) {
+      return "-";
+    }
+
+    var diff = target - now;
+    var days = Math.floor(diff / 86400000);
+
+    if (diff < 0) {
+      return "Sudah lewat";
+    }
+
+    if (days === 0) {
+      return "Hari ini";
+    }
+
+    return days + " hari lagi";
+  }
+
+  function teamText(record) {
+    var members = [];
+    var keys = ["member1", "member2", "member3"];
+    var i;
+
+    for (i = 0; i < keys.length; i++) {
+      var value = trimText(record[keys[i]]);
+      if (value && value !== "-" && value.toLowerCase() !== "nan") {
+        members.push(value);
+      }
+    }
+
+    return members.length ? members.join(" • ") : "-";
+  }
+
+  function sortByDateStore(a, b) {
+    var dateA = a.ast_date || "9999-12-31";
+    var dateB = b.ast_date || "9999-12-31";
+
+    if (dateA < dateB) return -1;
+    if (dateA > dateB) return 1;
+
+    var storeA = safeText(a.store);
+    var storeB = safeText(b.store);
+
+    if (storeA < storeB) return -1;
+    if (storeA > storeB) return 1;
+    return 0;
+  }
+
+  function uniqueValues(records, key) {
+    var seen = {};
+    var values = [];
+    var i;
+
+    for (i = 0; i < records.length; i++) {
+      var value = trimText(records[i][key]);
+      if (value && !seen[value]) {
+        seen[value] = true;
+        values.push(value);
+      }
+    }
+
+    values.sort();
+    return values;
+  }
+
+  function fillSelect(select, values, firstLabel, selectedValue) {
+    var html = '<option value="">' + firstLabel + '</option>';
+    var i;
+
+    for (i = 0; i < values.length; i++) {
+      var value = values[i];
+      html += '<option value="' + escapeHtml(value) + '">' +
+              escapeHtml(value) +
+              '</option>';
+    }
+
+    select.innerHTML = html;
+
+    if (selectedValue) {
+      select.value = selectedValue;
+    }
+  }
+
+  function recordsForBatch(batchValue) {
+    var result = [];
+    var i;
+
+    for (i = 0; i < allRecords.length; i++) {
+      if (!batchValue || trimText(allRecords[i].batch) === batchValue) {
+        result.push(allRecords[i]);
+      }
+    }
+
+    return result;
+  }
+
+  function filteredRecords() {
+    var batch = byId("batchFilter").value;
+    var store = byId("storeFilter").value;
+    var result = [];
+    var i;
+    var record;
+
+    for (i = 0; i < allRecords.length; i++) {
+      record = allRecords[i];
+
+      if (batch && trimText(record.batch) !== batch) {
+        continue;
+      }
+
+      if (store && trimText(record.store) !== store) {
+        continue;
+      }
+
+      result.push(record);
+    }
+
+    return result;
+  }
+
+  function populateFilters() {
+    var batchSelect = byId("batchFilter");
+    var storeSelect = byId("storeFilter");
+
+    var currentBatch = batchSelect.value;
+    var currentStore = storeSelect.value;
+
+    var batches = uniqueValues(allRecords, "batch");
+    fillSelect(batchSelect, batches, "All Batch", currentBatch);
+
+    var candidateRecords = recordsForBatch(batchSelect.value);
+    var stores = uniqueValues(candidateRecords, "store");
+
+    var storeExists = false;
+    var i;
+    for (i = 0; i < stores.length; i++) {
+      if (stores[i] === currentStore) {
+        storeExists = true;
+        break;
+      }
+    }
+
+    if (!storeExists) {
+      currentStore = "";
+    }
+
+    fillSelect(storeSelect, stores, "All Store", currentStore);
+  }
+
+  function renderActiveFilter() {
+    var batch = byId("batchFilter").value;
+    var store = byId("storeFilter").value;
+    var text = "Showing all schedules";
+
+    if (batch && store) {
+      text = "Batch " + batch + " • " + store;
+    } else if (batch) {
+      text = "Showing Batch " + batch;
+    } else if (store) {
+      text = "Showing " + store;
+    }
+
+    byId("activeFilterText").innerHTML = escapeHtml(text);
+  }
+
+  function renderKpis(records) {
+    var total = records.length;
+    var upcoming = 0;
+    var today = 0;
+    var completed = 0;
+    var soon = 0;
+    var i;
+    var status;
+    var days;
+
+    for (i = 0; i < records.length; i++) {
+      status = getStatus(records[i]);
+
+      if (status === "Completed") {
+        completed++;
+      } else if (status === "Today") {
+        today++;
+      } else if (status === "Upcoming") {
+        upcoming++;
+        days = daysUntil(records[i].ast_date);
+        if (days !== null && days <= 3) {
+          soon++;
+        }
+      }
+    }
+
+    byId("kpiTotal").innerHTML = total;
+    byId("kpiUpcoming").innerHTML = upcoming;
+    byId("kpiToday").innerHTML = today;
+    byId("kpiCompleted").innerHTML = completed;
+    byId("kpiSoonDesc").innerHTML = soon + " schedule dalam ≤ 3 hari";
+
+    var percent = total ? Math.round((completed / total) * 100) : 0;
+
+    byId("progressText").innerHTML =
+      completed + " dari " + total + " schedule telah selesai";
+
+    byId("progressPercent").innerHTML = percent + "%";
+    byId("progressFill").style.width = percent + "%";
+  }
+
+  function nextUpcoming(records) {
+    var candidates = [];
+    var i;
+
+    for (i = 0; i < records.length; i++) {
+      if (getStatus(records[i]) !== "Completed") {
+        candidates.push(records[i]);
+      }
+    }
+
+    candidates.sort(sortByDateStore);
+
+    if (candidates.length) {
+      return candidates[0];
+    }
+
+    return null;
+  }
+
+  function batchRecords(records, batch) {
+    var result = [];
+    var i;
+
+    for (i = 0; i < records.length; i++) {
+      if (trimText(records[i].batch) === trimText(batch)) {
+        result.push(records[i]);
+      }
+    }
+
+    result.sort(sortByDateStore);
+    return result;
+  }
+
+  function renderEmpty() {
+    byId("mainContent").innerHTML =
+      '<div class="content-card">' +
+        '<div class="empty-state">' +
+          '<div class="empty-title">Tidak ada jadwal AST</div>' +
+          '<div class="empty-text">Data tidak tersedia untuk filter yang dipilih.</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderBatchView(records) {
+    var selectedBatch = byId("batchFilter").value;
+    var anchor = null;
+
+    if (selectedBatch) {
+      var selectedBatchRecords = batchRecords(records, selectedBatch);
+      anchor = nextUpcoming(selectedBatchRecords);
+
+      if (!anchor && selectedBatchRecords.length) {
+        anchor = selectedBatchRecords[0];
+      }
+    } else {
+      anchor = nextUpcoming(records);
+    }
+
+    if (!anchor) {
+      renderEmpty();
+      return;
+    }
+
+    var batch = anchor.batch;
+    var batchList = batchRecords(allRecords, batch);
+    var activeBatchList = [];
+
+    var i;
+    for (i = 0; i < batchList.length; i++) {
+      if (!selectedBatch || trimText(batchList[i].batch) === selectedBatch) {
+        activeBatchList.push(batchList[i]);
+      }
+    }
+
+    if (!activeBatchList.length) {
+      activeBatchList = batchList;
+    }
+
+    var storesHtml = "";
+
+    for (i = 0; i < activeBatchList.length; i++) {
+      var r = activeBatchList[i];
+
+      storesHtml +=
+        '<div class="store-card">' +
+          '<div class="store-name">' + escapeHtml(r.store) + '</div>' +
+          '<div class="store-divider"></div>' +
+
+          '<div class="store-small-label">COORDINATOR</div>' +
+          '<div class="store-small-value">' + escapeHtml(r.coord) + '</div>' +
+
+          '<div class="store-small-label">TEAM</div>' +
+          '<div class="store-small-value">' + escapeHtml(teamText(r)) + '</div>' +
+
+          '<button class="view-store-btn" data-store="' +
+            escapeHtml(r.store) +
+          '">LIHAT AST</button>' +
+        '</div>';
+    }
+
+    var html =
+      '<div class="content-card">' +
+        '<div class="section-head">' +
+          '<div class="section-title">JADWAL AST BERIKUTNYA</div>' +
+          '<div class="batch-pill">BATCH ' + escapeHtml(batch) + '</div>' +
+        '</div>' +
+
+        '<div class="date-row">' +
+          '<div class="date-card">' +
+            '<div class="mini-label">WH LSI (H-14)</div>' +
+            '<div class="date-value">' + escapeHtml(formatDateId(anchor.wh_date)) + '</div>' +
+            '<div class="date-note">' + escapeHtml(daysLeftText(anchor.wh_date)) + '</div>' +
+          '</div>' +
+
+          '<div class="date-card">' +
+            '<div class="mini-label">AST DATE</div>' +
+            '<div class="date-value">' + escapeHtml(formatDateId(anchor.ast_date)) + '</div>' +
+            '<div class="date-note">' + escapeHtml(getStatus(anchor)) + '</div>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="batch-layout">' +
+          '<div class="store-area">' +
+            '<div class="store-area-label">TOKO DALAM BATCH</div>' +
+            '<div class="stores-wrap">' + storesHtml + '</div>' +
+          '</div>' +
+
+          '<div class="batch-countdown">' +
+            '<div class="batch-countdown-label">WAKTU MENUJU AST</div>' +
+            '<div id="batchCountdownText" class="batch-countdown-text">-</div>' +
+            '<div class="batch-countdown-footer">Annual Stock Take</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    byId("mainContent").innerHTML = html;
+
+    var buttons = document.getElementsByClassName("view-store-btn");
+    for (i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = function () {
+        var store = this.getAttribute("data-store");
+        byId("storeFilter").value = store;
+        renderAll();
+      };
+    }
+
+    startCountdown(anchor.ast_date, function (parts) {
+      var el = byId("batchCountdownText");
+      if (!el) return;
+
+      if (parts.completed) {
+        el.innerHTML = "AST TELAH DIMULAI";
+      } else {
+        el.innerHTML =
+          parts.days + " hari " +
+          parts.hours + " jam " +
+          parts.minutes + " menit lagi";
+      }
+    });
+  }
+
+  function renderStoreView(record) {
+    var html =
+      '<div class="content-card">' +
+        '<div id="storeBoard" class="store-board">' +
+          '<div class="store-board-inner">' +
+
+            '<div class="board-top">' +
+              '<div class="board-logo-box">' +
+                '<img class="board-logo" src="assets/logo.png" alt="Lotte" ' +
+                  'onerror="this.style.display=\'none\';">' +
+              '</div>' +
+
+              '<button id="boardFullscreenBtn" class="board-full-btn">' +
+                '⛶ FULL SCREEN' +
+              '</button>' +
+            '</div>' +
+
+            '<div class="board-kicker">COUNTDOWN TO</div>' +
+            '<div class="board-title">ANNUAL STOCK TAKE (AST)</div>' +
+            '<div class="board-store">' + escapeHtml(record.store) + '</div>' +
+            '<div class="board-batch">BATCH ' + escapeHtml(record.batch) + '</div>' +
+
+            '<div class="board-dates">' +
+              '<div>' +
+                '<span class="board-date-muted">AST STORE:</span>' +
+                escapeHtml(formatDateId(record.ast_date)) +
+              '</div>' +
+
+              '<div>' +
+                '<span class="board-date-muted">WH LSI (H-14):</span>' +
+                escapeHtml(formatDateId(record.wh_date)) +
+                '<span class="board-wh-status">• ' +
+                  escapeHtml(daysLeftText(record.wh_date)) +
+                '</span>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="board-main-countdown">' +
+              '<div id="boardDays" class="board-days">0</div>' +
+              '<div class="board-days-label">HARI</div>' +
+            '</div>' +
+
+            '<div class="board-time">' +
+              '<div class="board-time-box">' +
+                '<div id="boardHours" class="board-time-number">00</div>' +
+                '<div class="board-time-label">JAM</div>' +
+              '</div>' +
+
+              '<div class="board-time-sep">:</div>' +
+
+              '<div class="board-time-box">' +
+                '<div id="boardMinutes" class="board-time-number">00</div>' +
+                '<div class="board-time-label">MENIT</div>' +
+              '</div>' +
+
+              '<div class="board-time-sep">:</div>' +
+
+              '<div class="board-time-box">' +
+                '<div id="boardSeconds" class="board-time-number">00</div>' +
+                '<div class="board-time-label">DETIK</div>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="board-info">' +
+              '<div class="board-info-card">' +
+                '<div class="board-info-label">KOORDINATOR</div>' +
+                '<div class="board-info-value">' + escapeHtml(record.coord) + '</div>' +
+              '</div>' +
+
+              '<div class="board-info-card team">' +
+                '<div class="board-info-label">TIM AST</div>' +
+                '<div class="board-info-value">' + escapeHtml(teamText(record)) + '</div>' +
+              '</div>' +
+            '</div>' +
+
+            '<div class="board-footer">' +
+              '<div>LSI OPERATIONS</div>' +
+              '<div>PREPARE FOR AST ' + escapeHtml((record.ast_date || "").substring(0, 4)) + '</div>' +
+            '</div>' +
+
+          '</div>' +
+        '</div>' +
+      '</div>';
+
+    byId("mainContent").innerHTML = html;
+
+    byId("boardFullscreenBtn").onclick = function () {
+      requestFullscreen(byId("storeBoard"));
+    };
+
+    startCountdown(record.ast_date, function (parts) {
+      var days = byId("boardDays");
+      var hours = byId("boardHours");
+      var minutes = byId("boardMinutes");
+      var seconds = byId("boardSeconds");
+
+      if (!days || !hours || !minutes || !seconds) {
+        return;
+      }
+
+      days.innerHTML = parts.days;
+      hours.innerHTML = pad2(parts.hours);
+      minutes.innerHTML = pad2(parts.minutes);
+      seconds.innerHTML = pad2(parts.seconds);
+    });
+  }
+
+  function renderMain(records) {
+    var store = byId("storeFilter").value;
+    var i;
+    var record = null;
+
+    if (store) {
+      for (i = 0; i < records.length; i++) {
+        if (trimText(records[i].store) === store) {
+          record = records[i];
+          break;
+        }
+      }
+
+      if (record) {
+        renderStoreView(record);
+        return;
+      }
+    }
+
+    renderBatchView(records);
+  }
+
+  function statusBadge(status) {
+    var cls = "status-upcoming";
+
+    if (status === "Today") {
+      cls = "status-today";
+    } else if (status === "Completed") {
+      cls = "status-completed";
+    }
+
+    return '<span class="status-badge ' + cls + '">' +
+      escapeHtml(status) +
+      '</span>';
+  }
+
+  function renderTable(records) {
+    var tbody = byId("scheduleTableBody");
+    var sorted = records.slice(0);
+    sorted.sort(sortByDateStore);
+
+    var html = "";
+    var i;
+    var r;
+    var status;
+
+    for (i = 0; i < sorted.length; i++) {
+      r = sorted[i];
+      status = getStatus(r);
+
+      html +=
+        '<tr>' +
+          '<td>' + escapeHtml(r.batch) + '</td>' +
+          '<td>' + escapeHtml(r.store) + '</td>' +
+          '<td>' + escapeHtml(formatDateId(r.wh_date)) + '</td>' +
+          '<td>' + escapeHtml(formatDateId(r.ast_date)) + '</td>' +
+          '<td>' + escapeHtml(daysLeftText(r.ast_date)) + '</td>' +
+          '<td>' + escapeHtml(r.coord) + '</td>' +
+          '<td>' + escapeHtml(teamText(r)) + '</td>' +
+          '<td>' + statusBadge(status) + '</td>' +
+        '</tr>';
+    }
+
+    if (!html) {
+      html = '<tr><td colspan="8">Tidak ada data.</td></tr>';
+    }
+
+    tbody.innerHTML = html;
+  }
+
+  function pad2(value) {
+    value = String(value);
+    return value.length < 2 ? "0" + value : value;
+  }
+
+  function countdownParts(dateKey) {
+    var target = dateKeyToMsWib(dateKey);
+    var now = new Date().getTime();
+
+    if (isNaN(target)) {
+      return {
+        completed: true,
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      };
+    }
+
+    var diff = target - now;
+
+    if (diff < 0) {
+      diff = 0;
+    }
+
+    return {
+      completed: target <= now,
+      days: Math.floor(diff / 86400000),
+      hours: Math.floor((diff % 86400000) / 3600000),
+      minutes: Math.floor((diff % 3600000) / 60000),
+      seconds: Math.floor((diff % 60000) / 1000)
+    };
+  }
+
+  function startCountdown(dateKey, callback) {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    function tick() {
+      callback(countdownParts(dateKey));
+    }
+
+    tick();
+    timerId = setInterval(tick, 1000);
+  }
+
+  function requestFullscreen(element) {
+    if (!element) {
+      return;
+    }
+
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  }
+
+  function renderAll() {
+    populateFilters();
+
+    var records = filteredRecords();
+
+    renderActiveFilter();
+    renderKpis(records);
+    renderMain(records);
+    renderTable(records);
+  }
+
+  function normalizeRecord(raw) {
+    return {
+      batch: trimText(raw.batch || raw.BATCH),
+      store: trimText(raw.store || raw.STORE),
+      ast_date: trimText(raw.ast_date || raw["AST Date"]),
+      wh_date: trimText(raw.wh_date || raw["WH LSI (H-14)"]),
+      coord: trimText(raw.coord || raw.Coord),
+      member1: trimText(raw.member1 || raw.Member1),
+      member2: trimText(raw.member2 || raw.Member2),
+      member3: trimText(raw.member3 || raw.Member3)
+    };
+  }
+
+  function loadData() {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "data.json?ts=" + new Date().getTime(), true);
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) {
+        return;
+      }
+
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var payload = JSON.parse(xhr.responseText);
+          var records = payload.records || payload;
+          var normalized = [];
+          var i;
+
+          for (i = 0; i < records.length; i++) {
+            normalized.push(normalizeRecord(records[i]));
+          }
+
+          allRecords = normalized;
+
+          if (payload.meta && payload.meta.demo === true) {
+            byId("demoBanner").style.display = "block";
+          }
+
+          renderAll();
+
+        } catch (error) {
+          showDataError("Format data.json tidak valid.");
+        }
+      } else {
+        showDataError("data.json tidak dapat dibaca.");
+      }
+    };
+
+    xhr.send();
+  }
+
+  function showDataError(message) {
+    byId("mainContent").innerHTML =
+      '<div class="content-card">' +
+        '<div class="empty-state">' +
+          '<div class="empty-title">Data AST belum tersedia</div>' +
+          '<div class="empty-text">' + escapeHtml(message) + '</div>' +
+        '</div>' +
+      '</div>';
+
+    byId("scheduleTableBody").innerHTML =
+      '<tr><td colspan="8">' + escapeHtml(message) + '</td></tr>';
+  }
+
+  byId("batchFilter").onchange = function () {
+    var storeSelect = byId("storeFilter");
+    storeSelect.value = "";
+    populateFilters();
+    renderAll();
+  };
+
+  byId("storeFilter").onchange = function () {
+    renderAll();
+  };
+
+  byId("resetFilterBtn").onclick = function () {
+    byId("batchFilter").value = "";
+    byId("storeFilter").value = "";
+    renderAll();
+  };
+
+  byId("fullscreenAppBtn").onclick = function () {
+    requestFullscreen(document.documentElement);
+  };
+
+  loadData();
+
+})();
+</script>
+
+</body>
+</html>

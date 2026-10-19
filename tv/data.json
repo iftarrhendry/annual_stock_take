@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "demo": false,
+    "source": "DATA_AST_LSI.xlsx",
+    "record_count": 38
+  },
+  "records": [
+    {
+      "batch": "1",
+      "store": "06030 - PAKANSARI",
+      "ast_date": "2026-10-21",
+      "wh_date": "2026-10-07",
+      "coord": "Hadi Suwarsono",
+      "member1": "Indra permana",
+      "member2": "Danil Suhaleka (Ops)",
+      "member3": "Riyan Alfarizi"
+    },
+    {
+      "batch": "Spc",
+      "store": "DCHD LSI LMI Taman Surya",
+      "ast_date": "2026-10-27",
+      "wh_date": "",
+      "coord": "Indra permana",
+      "member1": "Andri Setiadin (NF)",
+      "member2": "-",
+      "member3": "-"
+    },
+    {
+      "batch": "2",
+      "store": "06004 - MERUYA",
+      "ast_date": "2026-11-02",
+      "wh_date": "2026-10-19",
+      "coord": "Hadi Suwarsono",
+      "member1": "Danil Suhaleka (Ops)",
+      "member2": "Bagas (LSI KG)",
+      "member3": "Eko (ALC Ciputat)"
+    },
+    {
+      "batch": "2",
+      "store": "06005 - BANDUNG",
+      "ast_date": "2026-11-02",
+      "wh_date": "2026-10-19",
+      "coord": "Indra permana",
+      "member1": "Ilham Muharman (Ops)",
+      "member2": "Sandy (ALC Cimahi)",
+      "member3": "Mochammad Fikri (Bekasi)"
+    },
+    {
+      "batch": "2",
+      "store": "06023 - CIKARANG",
+      "ast_date": "2026-11-02",
+      "wh_date": "2026-10-19",
+      "coord": "Setyo Adi (Comp)",
+      "member1": "Latief Noer (Ops)",
+      "member2": "Risal Fauzi (NF)",
+      "member3": "Jadiarto (Ops)"
+    },
+    {
+      "batch": "2",
+      "store": "06028 - MASTRIP",
+      "ast_date": "2026-11-02",
+      "wh_date": "2026-10-19",
+      "coord": "Edwin pria Ananda",
+      "member1": "Iskandar (Sidoarjo)",
+      "member2": "Zulkifli (Pakuwon)",
+      "member3": "Fauqo (Sidoarjo)"
+    },
+    {
+      "batch": "2",
+      "store": "06033 - MANADO",
+      "ast_date": "2026-11-02",
+      "wh_date": "2026-10-19",
+      "coord": "Maikel Latupapua",
+      "member1": "Kaisar Rauf Pasha",
+      "member2": "Riyan Alfarizi",
+      "member3": "Abdul Gofur (Ops)"
+    },
+    {
+      "batch": "Spc",
+      "store": "06D01 - LGLI/XDOCK",
+      "ast_date": "2026-11-02",
+      "wh_date": "",
+      "coord": "Devi (Logistic)",
+      "member1": "Yasser (Logistic)",
+      "member2": "Dava Deniawan Wiguna",
+      "member3": "-"
+    },
+    {
+      "batch": "3",
+      "store": "06001 - PASAR REBO",
+      "ast_date": "2026-11-07",
+      "wh_date": "2026-10-24",
+      "coord": "Hadi Suwarsono",
+      "member1": "Dava Deniawan Wiguna",
+      "member2": "Randi Wintoko (Ops)",
+      "member3": "Dwi Aryanto (Op Strat)"
+    },
+    {
+      "batch": "3",
+      "store": "06002 - SIDOARJO",
+      "ast_date": "2026-11-07",
+      "wh_date": "2026-10-24",
+      "coord": "Edwin pria Ananda",
+      "member1": "Mardias (Mastrip)",
+      "member2": "Zulkifli (Pakuwon)",
+      "member3": "Dwi Atmaja (Mastrip)"
+    },
+    {
+      "batch": "3",
+      "store": "06007 - ALAM SUTERA",
+      "ast_date": "2026-11-07",
+      "wh_date": "2026-10-24",
+      "coord": "Indra Permana",
+      "member1": "Kaisar Rauf Pasha",
+      "member2": "Abdul Gofur (Ops)",
+      "member3": "Dedi (Serpong)"
+    },
+    {
+      "batch": "3",
+      "store": "06008 - CIBITUNG",
+      "ast_date": "2026-11-07",
+      "wh_date": "2026-10-24",
+      "coord": "Maikel Latupapua",
+      "member1": "Riyan Alfarizi",
+      "member2": "Muhamadin (Ops)",
+      "member3": "Mahbub (Karawang)"
+    },
+    {
+      "batch": "3",
+      "store": "06026 - BOGOR",
+      "ast_date": "2026-11-07",
+      "wh_date": "2026-10-24",
+      "coord": "Hari Prabowo",
+      "member1": "Danil Suhaleka (Ops)",
+      "member2": "Yasser (Logistic)",
+      "member3": "Eko (ALC Ciputat)"
+    },
+    {
+      "batch": "4",
+      "store": "06016 - YOGYAKARTA",
+      "ast_date": "2026-11-12",
+      "wh_date": "2026-10-29",
+      "coord": "Hadi Suwarsono",
+      "member1": "Kaisar Rauf Pasha",
+      "member2": "Dava Deniawan Wiguna",
+      "member3": "Hariono (Semarang)"
+    },
+    {
+      "batch": "4",
+      "store": "06021 - JATAKE",
+      "ast_date": "2026-11-12",
+      "wh_date": "2026-10-29",
+      "coord": "Edwin pria Ananda",
+      "member1": "Muhamadin (Ops)",
+      "member2": "Ryan  (Cibitung)",
+      "member3": "Abdul Gofur (Ops)"
+    },
+    {
+      "batch": "4",
+      "store": "06037 - MATARAM",
+      "ast_date": "2026-11-12",
+      "wh_date": "2026-10-29",
+      "coord": "Hari Prabowo",
+      "member1": "Danil Suhaleka (Ops)",
+      "member2": "Ahmad Zaki (NF)",
+      "member3": "M Trisno Sanubari (LSI DF)"
+    },
+    {
+      "batch": "5",
+      "store": "06010 - MEDAN",
+      "ast_date": "2026-11-19",
+      "wh_date": "2026-11-05",
+      "coord": "Maikel Latupapua",
+      "member1": "Yasser (Logistic)",
+      "member2": "M Trisno Sanubari (LSI DF)",
+      "member3": "Amry (MCP)"
+    },
+    {
+      "batch": "5",
+      "store": "06013 - MAKASAR",
+      "ast_date": "2026-11-19",
+      "wh_date": "2026-11-05",
+      "coord": "Indra Permana",
+      "member1": "Hari Prabowo",
+      "member2": "Dava Deniawan Wiguna",
+      "member3": "Fathul Khoir (PNK)"
+    },
+    {
+      "batch": "5",
+      "store": "06022 - SERANG",
+      "ast_date": "2026-11-19",
+      "wh_date": "2026-11-05",
+      "coord": "Hadi suwarsono",
+      "member1": "Ilham Muharman (Ops)",
+      "member2": "Riyan Alfarizi",
+      "member3": "Eko (ALC Ciputat)"
+    },
+    {
+      "batch": "6",
+      "store": "06015 - PEKANBARU",
+      "ast_date": "2026-11-26",
+      "wh_date": "2026-11-12",
+      "coord": "Indra Permana",
+      "member1": "Muhamadin (Ops)",
+      "member2": "Dewa Wahyudin (Ops)",
+      "member3": "Erlangga (Logistic)"
+    },
+    {
+      "batch": "6",
+      "store": "06017 - BANJARMASIN",
+      "ast_date": "2026-11-26",
+      "wh_date": "2026-11-12",
+      "coord": "Hari Prabowo",
+      "member1": "Dafa (Op Strat)",
+      "member2": "Jadiarto (Ops)",
+      "member3": "Ryan  (Cibitung)"
+    },
+    {
+      "batch": "6",
+      "store": "06019 - SOLO",
+      "ast_date": "2026-11-26",
+      "wh_date": "2026-11-12",
+      "coord": "Kaisar Rauf Pasha",
+      "member1": "Abdul Gofur (Ops)",
+      "member2": "Endar (Solo Baru)",
+      "member3": "Suryanto ( Yogya)"
+    },
+    {
+      "batch": "7",
+      "store": "06003 - KELAPA GADING",
+      "ast_date": "2026-12-02",
+      "wh_date": "2026-11-18",
+      "coord": "Maikel Latupapua",
+      "member1": "Erlangga (Logistic)",
+      "member2": "Abdul Gofur (Ops)",
+      "member3": "Mochammad Fikri (Bekasi)"
+    },
+    {
+      "batch": "7",
+      "store": "06014 - PALEMBANG",
+      "ast_date": "2026-12-02",
+      "wh_date": "2026-11-18",
+      "coord": "Hadi Suwarsono",
+      "member1": "Royani",
+      "member2": "Dewa Wahyudin (Ops)",
+      "member3": "Firdaus (ALC Lampung)"
+    },
+    {
+      "batch": "7",
+      "store": "06020 - BALIKPAPAN",
+      "ast_date": "2026-12-02",
+      "wh_date": "2026-11-18",
+      "coord": "Setyo Adi (Comp)",
+      "member1": "Dava Deniawan Wiguna",
+      "member2": "Ilham Muharman (Ops)",
+      "member3": "Surya (Samarinda)"
+    },
+    {
+      "batch": "7",
+      "store": "06034 - KARAWANG",
+      "ast_date": "2026-12-02",
+      "wh_date": "2026-11-18",
+      "coord": "Kaisar Rauf Pasha",
+      "member1": "Riyan Alfarizi",
+      "member2": "Jadiarto (Ops)",
+      "member3": "Tendy (Ps Rebo)"
+    },
+    {
+      "batch": "8",
+      "store": "06031 - LAMPUNG",
+      "ast_date": "2026-12-07",
+      "wh_date": "2026-11-23",
+      "coord": "Hadi Suwarsono",
+      "member1": "Kaisar Rauf Pasha",
+      "member2": "Yasser (Logistic)",
+      "member3": "Dwi (ALC Palembang)"
+    },
+    {
+      "batch": "8",
+      "store": "06032 - SAMARINDA",
+      "ast_date": "2026-12-07",
+      "wh_date": "2026-11-23",
+      "coord": "Setyo Adi (Comp)",
+      "member1": "Dava Deniawan Wiguna",
+      "member2": "Ilham Muharman (Ops)",
+      "member3": "Herly budiman (Blk Ppn)"
+    },
+    {
+      "batch": "8",
+      "store": "06036 - CIMAHI",
+      "ast_date": "2026-12-07",
+      "wh_date": "2026-11-23",
+      "coord": "Edwin pria Ananda",
+      "member1": "Maikel Latupapua",
+      "member2": "Arifin Nur (Ops)",
+      "member3": "Teguh (Kelapa Gading)"
+    },
+    {
+      "batch": "9",
+      "store": "06009 - DENPASAR",
+      "ast_date": "2026-12-12",
+      "wh_date": "2026-11-28",
+      "coord": "Indra Permana",
+      "member1": "Jadiarto (Ops)",
+      "member2": "Dava Deniawan Wiguna",
+      "member3": "Dwi Aryanto (Op Strat)"
+    },
+    {
+      "batch": "9",
+      "store": "06018 - BEKASI",
+      "ast_date": "2026-12-12",
+      "wh_date": "2026-11-28",
+      "coord": "Maikel Latupapua",
+      "member1": "Risal Fauzi (NF)",
+      "member2": "Erlangga (Logistic)",
+      "member3": "Randi Wintoko (Ops)"
+    },
+    {
+      "batch": "9",
+      "store": "06024 - CIREBON",
+      "ast_date": "2026-12-12",
+      "wh_date": "2026-11-28",
+      "coord": "Hadi Suwarsono",
+      "member1": "Ahmad Zaki (NF)",
+      "member2": "Dewa Wahyudin (Ops)",
+      "member3": "Arifin Nur (Ops)"
+    },
+    {
+      "batch": "10",
+      "store": "06006 - CIPUTAT",
+      "ast_date": "2026-12-17",
+      "wh_date": "2026-12-03",
+      "coord": "Edwin pria Ananda",
+      "member1": "Kaisar Rauf Pasha",
+      "member2": "Damar (ALC Alsut)",
+      "member3": "Destra (Meruya)"
+    },
+    {
+      "batch": "10",
+      "store": "06011 - SEMARANG",
+      "ast_date": "2026-12-17",
+      "wh_date": "2026-12-03",
+      "coord": "Indra Permana",
+      "member1": "Arifin Nur (Ops)",
+      "member2": "Dwi Tantio (Solo)",
+      "member3": "Wendy (Solo Baru)"
+    },
+    {
+      "batch": "10",
+      "store": "06038 - TEGAL",
+      "ast_date": "2026-12-17",
+      "wh_date": "2026-12-03",
+      "coord": "Maikel Latupapua",
+      "member1": "Tendy (Ps Rebo)",
+      "member2": "Dafa (Op Strat)",
+      "member3": "Rudi Syahreza (Cirebon)"
+    },
+    {
+      "batch": "11",
+      "store": "06027 - TASIKMALAYA",
+      "ast_date": "2026-12-22",
+      "wh_date": "2026-12-08",
+      "coord": "Hari Prabowo",
+      "member1": "Ahmad Zaki (NF)",
+      "member2": "Bagas (LSI KG)",
+      "member3": "Sandy (ALC Cimahi)"
+    },
+    {
+      "batch": "11",
+      "store": "06029 - BATAM",
+      "ast_date": "2026-12-22",
+      "wh_date": "2026-12-08",
+      "coord": "Setyo Adi (Comp)",
+      "member1": "M Trisno Sanubari (LSI DF)",
+      "member2": "Dava Deniawan Wiguna",
+      "member3": "Muhamadin (Ops)"
+    },
+    {
+      "batch": "11",
+      "store": "06039 - SERPONG",
+      "ast_date": "2026-12-22",
+      "wh_date": "2026-12-08",
+      "coord": "Kaisar Rauf Pasha",
+      "member1": "Erlangga (Logistic)",
+      "member2": "Damar (ALC Alsut)",
+      "member3": "Dafa (Op Strat)"
+    }
+  ]
+}
