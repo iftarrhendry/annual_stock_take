@@ -32,6 +32,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# ==========================================
+# DISPLAY MODE
+# ==========================================
+
+display_mode = str(
+    st.query_params.get("display", "")
+).strip().lower()
+
+tv_store = str(
+    st.query_params.get("store", "")
+).strip()
 
 # ==========================================
 # THEME / CSS
@@ -237,8 +248,116 @@ Monitoring and scheduling dashboard for Annual Stock Take
 
 </div>
 """
-
 st.html(header_html)
+
+if display_mode == "tv":
+
+    st.html("""
+<style>
+
+/* ==========================================
+   TV DISPLAY MODE
+   Hanya aktif melalui ?display=tv
+   ========================================== */
+
+
+/* MAIN DASHBOARD */
+
+.block-container {
+    max-width: 100% !important;
+
+    padding-left: 2.2rem !important;
+    padding-right: 2.2rem !important;
+
+    padding-top: 1.4rem !important;
+}
+
+
+/* SIDEBAR */
+
+[data-testid="stSidebar"] {
+    min-width: 320px !important;
+    max-width: 320px !important;
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    width: 320px !important;
+}
+
+
+/* SELECTBOX / FILTER */
+
+[data-testid="stSidebar"] label {
+    font-size: 16px !important;
+}
+
+[data-testid="stSelectbox"] {
+    font-size: 16px !important;
+}
+
+
+/* KPI */
+
+.kpi-grid {
+    gap: 18px !important;
+}
+
+.kpi-grid > div {
+    min-height: 150px !important;
+
+    padding:
+        22px
+        24px !important;
+}
+
+
+/* TABLE */
+
+[data-testid="stDataFrame"] {
+    font-size: 15px !important;
+}
+
+
+/* BUTTON */
+
+button {
+    min-height: 44px !important;
+}
+
+
+/* GENERAL TEXT */
+
+.stMarkdown {
+    font-size: 16px;
+}
+
+
+/* 4K / VERY LARGE TV */
+
+@media (min-width: 2200px) {
+
+    .block-container {
+        padding-left: 4rem !important;
+        padding-right: 4rem !important;
+    }
+
+    [data-testid="stSidebar"] {
+        min-width: 390px !important;
+        max-width: 390px !important;
+    }
+
+    [data-testid="stSidebar"] > div:first-child {
+        width: 390px !important;
+    }
+
+    body {
+        font-size: 18px !important;
+    }
+
+}
+
+</style>
+""")
 
 # ==========================================
 # 3. LOAD EXCEL
@@ -705,6 +824,7 @@ if requested_store:
     )
 
     del st.query_params["open_store"]
+
 
 # ==========================================
 # 7. SIDEBAR
