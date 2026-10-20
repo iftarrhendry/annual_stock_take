@@ -748,19 +748,8 @@
     }
 
     /* ==========================================
-   COUNTDOWN FULLSCREEN - ANDROID TV
+   FINAL TV FULLSCREEN TUNING
    ========================================== */
-
-.store-board:fullscreen,
-.store-board:-webkit-full-screen {
-  width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-
-  border-radius: 0;
-  overflow: hidden;
-}
-
 
 .store-board:fullscreen .store-board-inner,
 .store-board:-webkit-full-screen .store-board-inner {
@@ -769,16 +758,16 @@
   min-height: 100vh;
 
   padding:
-    28px
-    54px
-    18px
-    54px;
-
-  overflow: hidden;
+    30px
+    60px
+    22px
+    60px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  overflow: hidden;
 }
 
 
@@ -786,25 +775,8 @@
 
 .store-board:fullscreen .board-logo-box,
 .store-board:-webkit-full-screen .board-logo-box {
-  width: 105px;
-  height: 62px;
-
-  padding: 8px 12px;
-}
-
-
-.store-board:fullscreen .board-logo,
-.store-board:-webkit-full-screen .board-logo {
-  max-width: 82px;
-  max-height: 44px;
-}
-
-
-/* HIDE FULLSCREEN BUTTON SAAT SUDAH FULLSCREEN */
-
-.store-board:fullscreen .board-full-btn,
-.store-board:-webkit-full-screen .board-full-btn {
-  display: none;
+  width: 100px;
+  height: 60px;
 }
 
 
@@ -812,30 +784,29 @@
 
 .store-board:fullscreen .board-kicker,
 .store-board:-webkit-full-screen .board-kicker {
-  margin-top: 6px;
+  margin-top: 4px;
 
-  font-size: 15px;
+  font-size: 16px;
 
   letter-spacing: 6px;
 }
 
 
-/* TITLE */
+/* MAIN TITLE */
 
 .store-board:fullscreen .board-title,
 .store-board:-webkit-full-screen .board-title {
   margin-top: 6px;
 
-  font-size:
-    clamp(
-      48px,
-      5.2vw,
-      76px
-    );
+  font-size: clamp(
+    56px,
+    4.8vw,
+    82px
+  );
 
-  line-height: 1;
+  line-height: 0.98;
 
-  max-width: 1200px;
+  max-width: 1400px;
 
   text-align: center;
 }
@@ -847,12 +818,11 @@
 .store-board:-webkit-full-screen .board-store {
   margin-top: 14px;
 
-  font-size:
-    clamp(
-      26px,
-      2.4vw,
-      38px
-    );
+  font-size: clamp(
+    28px,
+    2.2vw,
+    38px
+  );
 }
 
 
@@ -864,13 +834,13 @@
 
   padding:
     7px
-    18px;
+    20px;
 
   font-size: 13px;
 }
 
 
-/* DATE */
+/* DATES */
 
 .store-board:fullscreen .board-dates,
 .store-board:-webkit-full-screen .board-dates {
@@ -878,50 +848,49 @@
 
   gap:
     8px
-    34px;
+    38px;
 
-  font-size:
-    clamp(
-      13px,
-      1.25vw,
-      18px
-    );
+  font-size: clamp(
+    15px,
+    1.25vw,
+    20px
+  );
 }
 
 
-/* MAIN COUNTDOWN */
+/* ==========================
+   COUNTDOWN AREA
+   ========================== */
 
 .store-board:fullscreen .board-main-countdown,
 .store-board:-webkit-full-screen .board-main-countdown {
-  margin-top: 28px;
+  margin-top: 32px;
 
-  gap: 18px;
+  gap: 22px;
 }
 
 
 .store-board:fullscreen .board-days,
 .store-board:-webkit-full-screen .board-days {
-  font-size:
-    clamp(
-      125px,
-      17vh,
-      190px
-    );
+  font-size: clamp(
+    155px,
+    20vh,
+    215px
+  );
 
-  line-height: 0.80;
+  line-height: 0.78;
 
-  letter-spacing: -5px;
+  letter-spacing: -6px;
 }
 
 
 .store-board:fullscreen .board-days-label,
 .store-board:-webkit-full-screen .board-days-label {
-  font-size:
-    clamp(
-      42px,
-      5.5vh,
-      62px
-    );
+  font-size: clamp(
+    48px,
+    6vh,
+    70px
+  );
 
   padding-bottom: 12px;
 }
@@ -931,26 +900,25 @@
 
 .store-board:fullscreen .board-time,
 .store-board:-webkit-full-screen .board-time {
-  margin-top: 30px;
+  margin-top: 28px;
 
-  gap: 32px;
+  gap: 36px;
 }
 
 
 .store-board:fullscreen .board-time-box,
 .store-board:-webkit-full-screen .board-time-box {
-  width: 110px;
+  width: 120px;
 }
 
 
 .store-board:fullscreen .board-time-number,
 .store-board:-webkit-full-screen .board-time-number {
-  font-size:
-    clamp(
-      38px,
-      4.5vh,
-      52px
-    );
+  font-size: clamp(
+    42px,
+    5vh,
+    58px
+  );
 }
 
 
@@ -958,21 +926,21 @@
 .store-board:-webkit-full-screen .board-time-label {
   margin-top: 8px;
 
-  font-size: 10px;
+  font-size: 11px;
 
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
 }
 
 
 .store-board:fullscreen .board-time-sep,
 .store-board:-webkit-full-screen .board-time-sep {
-  margin-top: -3px;
-
-  font-size: 38px;
+  font-size: 42px;
 }
 
 
-/* COORDINATOR & TEAM */
+/* ==========================
+   BOTTOM INFORMATION
+   ========================== */
 
 .store-board:fullscreen .board-info,
 .store-board:-webkit-full-screen .board-info {
@@ -980,33 +948,33 @@
 
   margin-top: auto;
 
-  gap: 16px;
+  gap: 18px;
 }
 
 
 .store-board:fullscreen .board-info-card,
 .store-board:-webkit-full-screen .board-info-card {
-  min-height: 82px;
+  min-height: 96px;
 
   padding:
-    14px
-    18px;
+    16px
+    22px;
 }
 
 
 .store-board:fullscreen .board-info-label,
 .store-board:-webkit-full-screen .board-info-label {
-  font-size: 9px;
+  font-size: 11px;
 
-  letter-spacing: 1.6px;
+  letter-spacing: 1.8px;
 }
 
 
 .store-board:fullscreen .board-info-value,
 .store-board:-webkit-full-screen .board-info-value {
-  margin-top: 6px;
+  margin-top: 7px;
 
-  font-size: 14px;
+  font-size: 17px;
 
   line-height: 1.4;
 }
@@ -1016,11 +984,20 @@
 
 .store-board:fullscreen .board-footer,
 .store-board:-webkit-full-screen .board-footer {
-  margin-top: 12px;
+  margin-top: 13px;
 
   padding-top: 9px;
 
-  font-size: 8px;
+  font-size: 9px;
+}
+
+
+/* Tombol fullscreen tidak diperlukan
+   setelah sudah masuk fullscreen */
+
+.store-board:fullscreen .board-full-btn,
+.store-board:-webkit-full-screen .board-full-btn {
+  display: none !important;
 }
 
     /* =========================
