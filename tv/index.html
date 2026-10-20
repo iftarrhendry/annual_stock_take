@@ -748,37 +748,37 @@
     }
 
     /* ==========================================
-   COUNTDOWN FULLSCREEN
-   Optimized for laptop + Android TV
+   COUNTDOWN FULLSCREEN - ANDROID TV
    ========================================== */
 
 .store-board:fullscreen,
 .store-board:-webkit-full-screen {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
 
-    min-height: 0;
-
-    border-radius: 0;
-
-    overflow: hidden;
+  border-radius: 0;
+  overflow: hidden;
 }
 
 
 .store-board:fullscreen .store-board-inner,
 .store-board:-webkit-full-screen .store-board-inner {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
 
-    min-height: 0;
+  padding:
+    28px
+    54px
+    18px
+    54px;
 
-    padding:
-        26px
-        48px
-        18px
-        48px;
+  overflow: hidden;
 
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
@@ -786,121 +786,144 @@
 
 .store-board:fullscreen .board-logo-box,
 .store-board:-webkit-full-screen .board-logo-box {
-    width: 90px;
-    height: 52px;
+  width: 105px;
+  height: 62px;
 
-    padding: 7px 10px;
+  padding: 8px 12px;
 }
 
 
 .store-board:fullscreen .board-logo,
 .store-board:-webkit-full-screen .board-logo {
-    max-width: 68px;
-    max-height: 36px;
+  max-width: 82px;
+  max-height: 44px;
 }
 
 
-/* TOP TEXT */
+/* HIDE FULLSCREEN BUTTON SAAT SUDAH FULLSCREEN */
+
+.store-board:fullscreen .board-full-btn,
+.store-board:-webkit-full-screen .board-full-btn {
+  display: none;
+}
+
+
+/* COUNTDOWN TO */
 
 .store-board:fullscreen .board-kicker,
 .store-board:-webkit-full-screen .board-kicker {
-    margin-top: 0;
+  margin-top: 6px;
 
-    font-size: 11px;
+  font-size: 15px;
 
-    letter-spacing: 4px;
+  letter-spacing: 6px;
 }
 
+
+/* TITLE */
 
 .store-board:fullscreen .board-title,
 .store-board:-webkit-full-screen .board-title {
-    margin-top: 3px;
+  margin-top: 6px;
 
-    font-size:
-        clamp(
-            34px,
-            6vh,
-            54px
-        );
+  font-size:
+    clamp(
+      48px,
+      5.2vw,
+      76px
+    );
 
-    line-height: 0.98;
+  line-height: 1;
+
+  max-width: 1200px;
+
+  text-align: center;
 }
 
+
+/* STORE */
 
 .store-board:fullscreen .board-store,
 .store-board:-webkit-full-screen .board-store {
-    margin-top: 9px;
+  margin-top: 14px;
 
-    font-size:
-        clamp(
-            20px,
-            3vh,
-            26px
-        );
+  font-size:
+    clamp(
+      26px,
+      2.4vw,
+      38px
+    );
 }
 
+
+/* BATCH */
 
 .store-board:fullscreen .board-batch,
 .store-board:-webkit-full-screen .board-batch {
-    margin-top: 7px;
+  margin-top: 9px;
 
-    padding:
-        5px
-        14px;
+  padding:
+    7px
+    18px;
 
-    font-size: 10px;
+  font-size: 13px;
 }
 
 
-/* AST / WH DATE */
+/* DATE */
 
 .store-board:fullscreen .board-dates,
 .store-board:-webkit-full-screen .board-dates {
-    margin-top: 12px;
+  margin-top: 18px;
 
-    gap:
-        6px
-        24px;
+  gap:
+    8px
+    34px;
 
-    font-size: 12px;
+  font-size:
+    clamp(
+      13px,
+      1.25vw,
+      18px
+    );
 }
 
 
-/* HARI */
+/* MAIN COUNTDOWN */
 
 .store-board:fullscreen .board-main-countdown,
 .store-board:-webkit-full-screen .board-main-countdown {
-    margin-top: 18px;
+  margin-top: 28px;
 
-    gap: 12px;
+  gap: 18px;
 }
 
 
 .store-board:fullscreen .board-days,
 .store-board:-webkit-full-screen .board-days {
-    font-size:
-        clamp(
-            80px,
-            17vh,
-            135px
-        );
+  font-size:
+    clamp(
+      125px,
+      17vh,
+      190px
+    );
 
-    line-height: 0.80;
+  line-height: 0.80;
 
-    letter-spacing: -4px;
+  letter-spacing: -5px;
 }
 
 
 .store-board:fullscreen .board-days-label,
 .store-board:-webkit-full-screen .board-days-label {
-    font-size:
-        clamp(
-            28px,
-            5vh,
-            42px
-        );
+  font-size:
+    clamp(
+      42px,
+      5.5vh,
+      62px
+    );
 
-    padding-bottom: 7px;
+  padding-bottom: 12px;
 }
 
 
@@ -908,74 +931,84 @@
 
 .store-board:fullscreen .board-time,
 .store-board:-webkit-full-screen .board-time {
-    margin-top: 18px;
+  margin-top: 30px;
 
-    gap: 20px;
+  gap: 32px;
 }
 
 
 .store-board:fullscreen .board-time-box,
 .store-board:-webkit-full-screen .board-time-box {
-    width: 82px;
+  width: 110px;
 }
 
 
 .store-board:fullscreen .board-time-number,
 .store-board:-webkit-full-screen .board-time-number {
-    font-size:
-        clamp(
-            26px,
-            4.5vh,
-            36px
-        );
+  font-size:
+    clamp(
+      38px,
+      4.5vh,
+      52px
+    );
 }
 
 
 .store-board:fullscreen .board-time-label,
 .store-board:-webkit-full-screen .board-time-label {
-    margin-top: 5px;
+  margin-top: 8px;
 
-    font-size: 8px;
+  font-size: 10px;
+
+  letter-spacing: 2px;
 }
 
 
 .store-board:fullscreen .board-time-sep,
 .store-board:-webkit-full-screen .board-time-sep {
-    font-size: 26px;
+  margin-top: -3px;
+
+  font-size: 38px;
 }
 
 
-/* COORDINATOR + TEAM */
+/* COORDINATOR & TEAM */
 
 .store-board:fullscreen .board-info,
 .store-board:-webkit-full-screen .board-info {
-    margin-top: auto;
+  width: 100%;
 
-    gap: 12px;
+  margin-top: auto;
+
+  gap: 16px;
 }
 
 
 .store-board:fullscreen .board-info-card,
 .store-board:-webkit-full-screen .board-info-card {
-    padding:
-        10px
-        14px;
+  min-height: 82px;
+
+  padding:
+    14px
+    18px;
 }
 
 
 .store-board:fullscreen .board-info-label,
 .store-board:-webkit-full-screen .board-info-label {
-    font-size: 8px;
+  font-size: 9px;
+
+  letter-spacing: 1.6px;
 }
 
 
 .store-board:fullscreen .board-info-value,
 .store-board:-webkit-full-screen .board-info-value {
-    margin-top: 5px;
+  margin-top: 6px;
 
-    font-size: 12px;
+  font-size: 14px;
 
-    line-height: 1.35;
+  line-height: 1.4;
 }
 
 
@@ -983,11 +1016,11 @@
 
 .store-board:fullscreen .board-footer,
 .store-board:-webkit-full-screen .board-footer {
-    margin-top: 9px;
+  margin-top: 12px;
 
-    padding-top: 7px;
+  padding-top: 9px;
 
-    font-size: 7px;
+  font-size: 8px;
 }
 
     /* =========================
